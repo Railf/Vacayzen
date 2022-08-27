@@ -7,7 +7,7 @@ Code written while working at Vacayzen.
 python3 SubmitToSWBSA.py
 ```
 
-Automate submissions to a form. Submissions to this form would take three people multiple hours, at least one day a week. This is now handled via script, and completes execution in minutes.
+Automate submissions to an online form. Submissions to this form would take three people multiple hours, at least one day a week. This is now handled with this script, and completes execution in minutes.
 
 
 ## GetSubmissionsSWBSA.py
@@ -79,7 +79,7 @@ Automates the invoice- and report-creation process of SWBSA's monthly billing cy
 python3 CloseOrders.py
 ```
 
-Automates the order-closing process for each of Vacayzen's rental orders inside of integraRental. This was a $6,000 quote from the platforms' development team that was solved with this script--written in two days by Ralph McCracken.
+Automates the order-closing process for each of Vacayzen's rental orders inside of integraRental. This was a $6,000 quote from the platforms' development team that was solved with this script--written in two days by Ralph McCracken. Saves multiple hours each day.
 
 
 
@@ -89,6 +89,7 @@ Automates the order-closing process for each of Vacayzen's rental orders inside 
 - [x] Pull Reports
 - [x] Simplify the Execution of Multiple Scripts
 - [x] Automate Routine Tasks
+- [x] Analyze Data from CSV Files
 - [x] Create PDF Files
 - [ ] Pull Occupancy Data From Online Tape Charts
 - [ ] Pull Occupancy Data From iCalendar Files

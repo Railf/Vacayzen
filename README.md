@@ -1,5 +1,5 @@
 # Vacayzen
-Code written while working at Vacayzen.
+Code written by Ralph McCracken, while working at Vacayzen.
 
 
 ## SubmitToSWBSA.py

@@ -1,6 +1,16 @@
 # Vacayzen
 Code written by Ralph McCracken, while working at Vacayzen.
 
+## TODO
+
+- [x] Submit to Online Forms
+- [x] Pull Reports
+- [x] Simplify the Execution of Multiple Scripts
+- [x] Automate Routine Tasks
+- [x] Analyze Data from CSV Files
+- [x] Create PDF Files
+- [ ] Pull Occupancy Data From Online Tape Charts
+- [ ] Pull Occupancy Data From iCalendar Files
 
 ## SubmitToSWBSA.py
 ```
@@ -80,16 +90,3 @@ python3 CloseOrders.py
 ```
 
 Automates the order-closing process for each of Vacayzen's rental orders inside of integraRental. This was a $6,000 quote from the platforms' development team that was solved with this script--written in two days by Ralph McCracken. Saves multiple hours each day.
-
-
-
-### TODO
-
-- [x] Submit to Online Forms
-- [x] Pull Reports
-- [x] Simplify the Execution of Multiple Scripts
-- [x] Automate Routine Tasks
-- [x] Analyze Data from CSV Files
-- [x] Create PDF Files
-- [ ] Pull Occupancy Data From Online Tape Charts
-- [ ] Pull Occupancy Data From iCalendar Files

@@ -85,9 +85,10 @@ Automates the order-closing process for each of Vacayzen's rental orders inside 
 
 ### TODO
 
-[x] Submit to Online Forms
-[x] Pull Reports
-[x] Simplify the Execution of Multiple Scripts
-[x] Automate Tedious, Routine Tasks
-[ ] Pull Occupancy Data From Online Tape Charts
-[ ] Pull Occupancy Data From iCalendar Files
+- [x] Submit to Online Forms
+- [x] Pull Reports
+- [x] Simplify the Execution of Multiple Scripts
+- [x] Automate Routine Tasks
+- [x] Create PDF Files
+- [ ] Pull Occupancy Data From Online Tape Charts
+- [ ] Pull Occupancy Data From iCalendar Files

@@ -1,0 +1,11 @@
+# TODO List
+TODO.csv
+
+# Sensitive
+credentials.py
+SWBSA/members.csv
+SWBSA/SWBSA.png
+
+# Cached Files
+.DS_Store
+__pycache__

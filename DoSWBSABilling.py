@@ -215,7 +215,7 @@ def GetRelevantWalkups(walkups):
     newData = []
 
     for walkup in walkups:
-        if (walkup[1] == 'Beach Set' or walkup[1] == 'Beach Umbrella'):
+        if (walkup[2] == 'Beach Set' or walkup[2] == 'Beach Umbrella'):
             newData.append(walkup)
     
     return newData
@@ -225,9 +225,9 @@ def OrganizeWalkups(walkups):
 
     for walkup in walkups:
         if walkup[0] in newData.keys():
-            newData[walkup[0]] += int(walkup[2])
+            newData[walkup[0]] += int(walkup[3])
         else:
-            newData[walkup[0]]  = int(walkup[2])
+            newData[walkup[0]]  = int(walkup[3])
     
     return newData
 
@@ -263,7 +263,7 @@ def GetNumberOfWalkups(walkups):
     count = 0
 
     for walkup in walkups:
-        count += int(walkup[2])
+        count += int(walkup[3])
     
     return count
 

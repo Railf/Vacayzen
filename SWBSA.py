@@ -4,6 +4,7 @@ import pandas as pd
 
 import sys
 
+
 start_date = pd.to_datetime(sys.argv[1])
 end_date   = pd.to_datetime(sys.argv[2])
 
@@ -14,10 +15,6 @@ df = df[["customer","order","access","comment","sets","po_number","vendor","agen
 
 df.start = pd.to_datetime(df.start).dt.floor('d')
 df.end   = pd.to_datetime(df.end).dt.floor('d')
-
-# get number of days
-# df["day_test"] = (df.end - df.start + timedelta(1)).dt.days
-
 
 df = df[
     ((df.start <= start_date) & (end_date <= df.end)) |
@@ -33,6 +30,11 @@ for row in df.index:
 df.days = (df.end - df.start + timedelta(1)).dt.days
 df.set_days = df.sets * df.days
 
-print(df.groupby("vendor").sum())
+# for vendor in df.vendor.unique():
+#     df[df.vendor == vendor].to_csv(f"/Users/workhorse/Downloads/{vendor}.csv")
 
-df.to_csv("/Users/workhorse/Downloads/results.csv")
+billing = df[["vendor","set_days"]].groupby("vendor").sum()
+billing = billing.reset_index()
+billing["cost"] = billing["set_days"] * 23
+
+billing.to_csv("/Users/workhorse/Downloads/billing.csv")

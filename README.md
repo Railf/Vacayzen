@@ -9,8 +9,8 @@ Code written by Ralph McCracken, while working at Vacayzen.
 - [x] Automate Routine Tasks
 - [x] Analyze Data from CSV Files
 - [x] Create PDF Files
+- [x] Pull Occupancy Data From iCalendar Files
 - [ ] Pull Occupancy Data From Online Tape Charts
-- [ ] Pull Occupancy Data From iCalendar Files
 
 ## SubmitToSWBSA.py
 ```

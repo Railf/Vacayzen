@@ -47,6 +47,8 @@ def CreateCSV(data, name):
         write = csv.writer(file)
         write.writerows(data)
 
+def TextDateToDate(text):
+    return (text[4:6] + '/' + text[6:8] + '/' + text[0:4])
 
 GetCSVFromGoogleSheetTab(credentials.GoogleSheetIDs["iCalendar Converter"],"1687799206")
 
@@ -69,9 +71,30 @@ for calendar in calendars:
         
         print("SUCCESS")
     except:
-        print("FAILED")
-        failures.append([calendar["PARTNER"], calendar["UNIT"]])
-        continue
+        try:
+            print("FAILED. Attempting next method...")
+            print("downloading", calendar["UNIT"], "occupancy... ", end="")
+
+            reservations = requests.get(calendar["CALENDAR"]).text
+            reservations = reservations.split('\n')
+
+            starts = []
+            ends = []
+
+            for line in reservations:
+                if "DTSTART" in line: starts.append(TextDateToDate(line[8:-1]))
+                if "DTEND" in line: ends.append(TextDateToDate(line[6:-1]))
+            
+            for i, start in enumerate(starts):
+                results.append([calendar["PARTNER"], calendar["UNIT"], starts[i], ends[i]])
+
+        
+            print("SUCCESS")
+        except:
+            print("FAILED")
+            failures.append([calendar["PARTNER"], calendar["UNIT"]])
+            continue
+
 
 CreateCSV(failures, "failures")
 CreateCSV(results,  "results")

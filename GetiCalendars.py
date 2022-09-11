@@ -1,3 +1,4 @@
+from tkinter import EXCEPTION
 from ics import Calendar
 from pathlib import Path
 from glob import glob
@@ -76,6 +77,9 @@ for calendar in calendars:
             print("downloading", calendar["UNIT"], "occupancy... ", end="")
 
             reservations = requests.get(calendar["CALENDAR"]).text
+
+            if "DTSTART" not in reservations: raise Exception("Response does not include iCalendar data.")
+
             reservations = reservations.split('\n')
 
             starts = []

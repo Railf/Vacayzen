@@ -94,7 +94,7 @@ def CloseOrder(orderNumber):
 
     time.sleep(5)
     close = wait.until(EC.element_to_be_clickable((By.ID,"btnbillingModeOK"))).click()
-    time.sleep(1)
+    time.sleep(10)
 
 orders = []
 

@@ -45,22 +45,22 @@ def PullReport(startDate, endDate):
 
     iframe = driver.switch_to.frame('looker-frame')
     config = wait.until(EC.presence_of_element_located((By.XPATH, "//*[@id='filter-expandable-pane']/div[1]/div/span"))).click()
-    dates  = Select(driver.find_element(By.XPATH,"/html/body/div[2]/div[1]/lk-explore-dataflux/div[2]/lk-explore-content/div/div/lk-filter-pane/lk-expandable-pane/div[2]/expandable-pane-content/lk-query-filters/table/tbody/tr[1]/td[3]/lk-filter/table/tbody/tr/td[2]/select")).select_by_visible_text('is in range')
+    dates  = Select(driver.find_element(By.XPATH,"/html/body/div[2]/div/div/div/div/section/looks-subrouter/ui-view/lk-explore-dataflux/div[2]/lk-explore-content/div/div/lk-filter-pane/lk-expandable-pane/div[2]/expandable-pane-content/lk-query-filters/table/tbody/tr[1]/td[3]/lk-filter/table/tbody/tr/td[2]/select")).select_by_visible_text('is in range')
     
-    start  = driver.find_element(By.XPATH,"/html/body/div[2]/div[1]/lk-explore-dataflux/div[2]/lk-explore-content/div/div/lk-filter-pane/lk-expandable-pane/div[2]/expandable-pane-content/lk-query-filters/table/tbody/tr[1]/td[3]/lk-filter/table/tbody/tr/td[2]/span[2]/span[1]/lens-explore-filter-date-picker/div/button").click()
+    start  = driver.find_element(By.XPATH,"/html/body/div[2]/div/div/div/div/section/looks-subrouter/ui-view/lk-explore-dataflux/div[2]/lk-explore-content/div/div/lk-filter-pane/lk-expandable-pane/div[2]/expandable-pane-content/lk-query-filters/table/tbody/tr[1]/td[3]/lk-filter/table/tbody/tr/td[2]/span[2]/span[1]/lens-explore-filter-date-picker/div/button").click()
     start  = driver.find_element(By.XPATH,"/html/body/div[5]/div/div/div/div/div/div/div/div/input")
     start.send_keys(startDate)
     start.send_keys(Keys.ENTER)
     
-    end    = driver.find_element(By.XPATH,"/html/body/div[2]/div[1]/lk-explore-dataflux/div[2]/lk-explore-content/div/div/lk-filter-pane/lk-expandable-pane/div[2]/expandable-pane-content/lk-query-filters/table/tbody/tr[1]/td[3]/lk-filter/table/tbody/tr/td[2]/span[3]/span/lens-explore-filter-date-picker/div/button").click()
+    end    = driver.find_element(By.XPATH,"/html/body/div[2]/div/div/div/div/section/looks-subrouter/ui-view/lk-explore-dataflux/div[2]/lk-explore-content/div/div/lk-filter-pane/lk-expandable-pane/div[2]/expandable-pane-content/lk-query-filters/table/tbody/tr[1]/td[3]/lk-filter/table/tbody/tr/td[2]/span[3]/span/lens-explore-filter-date-picker/div/button").click()
     end    = driver.find_element(By.XPATH,"/html/body/div[5]/div/div/div/div/div/div/div/div/input")
     end.send_keys(endDate)
     end.send_keys(Keys.ENTER)
 
-    run      = driver.find_element(By.XPATH,"/html/body/div[2]/div[1]/lk-explore-dataflux/lk-explore-header/div[2]/button[1]").click()
+    run      = driver.find_element(By.XPATH,"/html/body/div[2]/div/div/div/div/section/looks-subrouter/ui-view/lk-explore-dataflux/lk-explore-header/div[2]/button[1]").click()
     load     = time.sleep(5)
-    options  = driver.find_element(By.XPATH,"/html/body/div[2]/div[1]/lk-explore-dataflux/lk-explore-header/div[2]/lk-explore-header-menu/lens-explore-header-menu/button").click()
-    download = driver.find_element(By.XPATH,"/html/body/div[5]/div/div/div/div/div/ul/li[1]/button/div[2]/span").click()
+    options  = driver.find_element(By.XPATH,"/html/body/div[2]/div/div/div/div/section/looks-subrouter/ui-view/lk-explore-dataflux/lk-explore-header/div[2]/lk-explore-header-menu/lens-explore-header-menu/button").click()
+    download = driver.find_element(By.XPATH,"/html/body/div[5]/div/div/div/div/div/ul/li[1]/button").click()
 
     filename = driver.find_element(By.XPATH,"/html/body/div[1]/div/div/div/form/div[1]/div[5]/div/input")
     filename.clear()

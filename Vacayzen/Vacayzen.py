@@ -31,28 +31,29 @@ def GetGuestDetails():
     col4.write("")
     col4.button("START SHOPPING")
 
-def UpdatePromotion(promotions):
-    st.session_state['image'] = promotions[st.session_state['counter'] - 1]['image']
-    st.session_state['title'] = promotions[st.session_state['counter'] - 1]['title']
-    st.session_state['description'] = promotions[st.session_state['counter'] - 1]['description']
+def UpdatePromotion(promotions, slider):
+    if not slider: slider = 1
+    
+    st.session_state['promotion'] = promotions[slider - 1]
     
 
 
 def DisplayPromotions():
     promotions = list(Vacayzen.Promotions.find())
-    # st.session_state['image'] = promotions[0]['image']
-    # st.session_state['title'] = promotions[0]['title']
-    # st.session_state['description'] = promotions[0]['description']
 
-    col1, col2, col3 = st.columns(3)
-    col2.image(st.session_state['image'])
-    col2.subheader(st.session_state['title'])
-    col2.caption(st.session_state['description'])
-    st.session_state['counter'] = col2.slider('promo',
+    if 'promotion' not in st.session_state:
+        st.session_state['promotion'] = promotions[0]
+        # st.session_state['counter'] = 1
+
+    st.image(st.session_state['promotion']['image'])
+    st.subheader(st.session_state['promotion']['title'])
+    st.caption(st.session_state['promotion']['description'])
+    slider = st.slider('promo',
     min_value=1,
     max_value=len(list(promotions)),
+    value=1,
     label_visibility='hidden',
-    on_change=UpdatePromotion(promotions))
+    on_change=UpdatePromotion(promotions, slider))
 
 
 def LandingPage(partner):

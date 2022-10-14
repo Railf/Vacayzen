@@ -6,7 +6,6 @@ import os
 
 import GetBenchmarkReport
 import GetScenicStaysReport
-import GetSubmissionsSWBSA
 
 path = str(Path.home() / "Downloads")
 
@@ -21,8 +20,6 @@ def RenameFiles(path):
             os.rename(file, "Benchmark - Credit Program.xlsx")
         if "trip-items" in file:
             os.rename(file, "Scenic Stays 30A - Credit Program.csv")
-        if "Export_ExportRentalsByDay" in file:
-            os.rename(file, "SWBSA - Rentals By Day.csv")
     
     print("done")
 

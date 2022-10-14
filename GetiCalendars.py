@@ -1,4 +1,3 @@
-from tkinter import EXCEPTION
 from ics import Calendar
 from pathlib import Path
 from glob import glob

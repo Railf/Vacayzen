@@ -1,6 +1,8 @@
 from pymongo import MongoClient
+
 import streamlit as st
 import certifi
+import time
 
 connect  = "mongodb+srv://" + st.secrets["username"] + ":" + st.secrets["password"] + "@vacadb.dfmrc.mongodb.net/?retryWrites=true&w=majority"
 client   = MongoClient(connect, tlsCAFile=certifi.where())
@@ -48,7 +50,6 @@ def DisplayPromotions():
     st.slider('promo',
     min_value=1,
     max_value=len(list(promotions)),
-    value=1,
     label_visibility='hidden',
     key='ad')
 

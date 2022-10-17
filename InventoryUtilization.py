@@ -12,7 +12,6 @@ utilization = pd.read_csv("/Users/workhorse/Downloads/InventoryUtilization.csv",
 inventory = pd.read_csv("/Users/workhorse/Downloads/InventoryByItem.csv", index_col=False)
 inventory = dict(inventory.values)
 
-
 control = utilization[(utilization.RentalAssetMasterID == 236)].index
 utilization.drop(control,inplace=True)
 
@@ -20,8 +19,8 @@ utilization = utilization[['Description','Quantity','StartDate','EndDate']]
 
 utilization.columns = ['asset','quantity','start','end']
 
-utilization['start']    = pd.to_datetime(utilization['start'])
-utilization['end']      = pd.to_datetime(utilization['end'])
+utilization['start'] = pd.to_datetime(utilization['start'])
+utilization['end']   = pd.to_datetime(utilization['end'])
 
 date_range = pd.date_range(range_start, range_end)
 

@@ -1,5 +1,4 @@
 import pandas as pd
-# import streamlit as st
 
 import sys
 
@@ -15,6 +14,7 @@ inventory = dict(inventory.values)
 
 control = utilization['RentalAgreementID'][utilization.RentalAssetMasterID == 236].values
 utilization = utilization[utilization.RentalAgreementID.isin(control) == False]
+utilization = utilization[utilization.RentalAgreementID != 33793] # ANOTHER CONTROL AGREEMENT
 
 utilization = utilization[['Description','Quantity','StartDate','EndDate']]
 
@@ -40,56 +40,6 @@ for day in date_range:
 utilization_by_date = pd.concat(inventory_by_date)
 utilization_by_date.to_csv('/Users/workhorse/Downloads/utilization_by_date.csv')
 
-buckets = []
-
-ten = utilization_by_date[utilization_by_date.utilization < 0.1]
-ten['bucket'] = '10'
-buckets.append(ten)
-
-twenty = utilization_by_date[(utilization_by_date.utilization >= 0.1) & (utilization_by_date.utilization < 0.2)]
-twenty['bucket'] = '20'
-buckets.append(twenty)
-
-thirty = utilization_by_date[(utilization_by_date.utilization >= 0.2) & (utilization_by_date.utilization < 0.3)]
-thirty['bucket'] = '30'
-buckets.append(thirty)
-
-forty = utilization_by_date[(utilization_by_date.utilization >= 0.3) & (utilization_by_date.utilization < 0.4)]
-forty['bucket'] = '40'
-buckets.append(forty)
-
-fifty = utilization_by_date[(utilization_by_date.utilization >= 0.4) & (utilization_by_date.utilization < 0.5)]
-fifty['bucket'] = '50'
-buckets.append(fifty)
-
-sixty = utilization_by_date[(utilization_by_date.utilization >= 0.5) & (utilization_by_date.utilization < 0.6)]
-sixty['bucket'] = '60'
-buckets.append(sixty)
-
-seventy = utilization_by_date[(utilization_by_date.utilization >= 0.6) & (utilization_by_date.utilization < 0.7)]
-seventy['bucket'] = '70'
-buckets.append(seventy)
-
-eighty = utilization_by_date[(utilization_by_date.utilization >= 0.7) & (utilization_by_date.utilization < 0.8)]
-eighty['bucket'] = '80'
-buckets.append(eighty)
-
-ninty = utilization_by_date[(utilization_by_date.utilization >= 0.8) & (utilization_by_date.utilization < 0.9)]
-ninty['bucket'] = '90'
-buckets.append(ninty)
-
-hundred = utilization_by_date[(utilization_by_date.utilization >= 0.9) & (utilization_by_date.utilization < 1)]
-hundred['bucket'] = '100'
-buckets.append(hundred)
-
-excess = utilization_by_date[utilization_by_date.utilization >= 1]
-excess['bucket'] = 'EXCESS'
-buckets.append(excess)
-
-utilization_by_bucket = pd.concat(buckets)
-
-utilization_by_bucket.to_csv('/Users/workhorse/Downloads/utilization_by_bucket.csv')
-
 max_utilization_by_asset = []
 
 for asset in utilization_by_date.index.unique():
@@ -99,16 +49,6 @@ for asset in utilization_by_date.index.unique():
     max_utilization_by_asset.append(temp)
 
 max_utilization = pd.concat(max_utilization_by_asset)
+max_utilization['need'] = -1 * (max_utilization.inventory - max_utilization.quantity)
+max_utilization.sort_values(by='need',ascending=False,inplace=True)
 max_utilization.to_csv('/Users/workhorse/Downloads/max_utilization.csv')
-
-zero_to_fourty_nine = max_utilization[max_utilization.utilization < 0.5]
-zero_to_fourty_nine.to_csv('/Users/workhorse/Downloads/max_1_zero_to_fourty_nine.csv')
-
-fifty_to_seventy_four = max_utilization[(max_utilization.utilization >= 0.5) & (max_utilization.utilization < 0.75)]
-fifty_to_seventy_four.to_csv('/Users/workhorse/Downloads/max_2_fifty_to_seventy_four.csv')
-
-seventy_five_to_eighty_nine = max_utilization[(max_utilization.utilization >= 0.75) & (max_utilization.utilization < 0.9)]
-seventy_five_to_eighty_nine.to_csv('/Users/workhorse/Downloads/max_3_seventy_five_to_eighty_nine.csv')
-
-ninety_and_up = max_utilization[max_utilization.utilization >= 0.9]
-ninety_and_up.to_csv('/Users/workhorse/Downloads/max_4_ninety_and_up.csv')

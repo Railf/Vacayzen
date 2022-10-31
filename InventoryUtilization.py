@@ -4,8 +4,8 @@ import sys
 
 pd.options.mode.chained_assignment = None
 
-range_start = pd.to_datetime(sys.argv[1])
-range_end   = pd.to_datetime(sys.argv[2])
+range_start = pd.to_datetime(sys.argv[1] + ' 18:00:00')
+range_end   = pd.to_datetime(sys.argv[2] + ' 18:00:00')
 
 utilization = pd.read_csv("/Users/workhorse/Downloads/InventoryUtilization.csv", index_col=False)
 
@@ -49,6 +49,6 @@ for asset in utilization_by_date.index.unique():
     max_utilization_by_asset.append(temp)
 
 max_utilization = pd.concat(max_utilization_by_asset)
-max_utilization['need'] = -1 * (max_utilization.inventory - max_utilization.quantity)
-max_utilization.sort_values(by='need',ascending=False,inplace=True)
+max_utilization['delta'] = -1 * (max_utilization.inventory - max_utilization.quantity)
+# max_utilization.sort_values(by='need',ascending=False,inplace=True)
 max_utilization.to_csv('/Users/workhorse/Downloads/max_utilization.csv')

@@ -225,9 +225,9 @@ def OrganizeWalkups(walkups):
 
     for walkup in walkups:
         if walkup[0] in newData.keys():
-            newData[walkup[0]] += int(walkup[3])
+            newData[walkup[0]] += int(walkup[3].replace(',',''))
         else:
-            newData[walkup[0]]  = int(walkup[3])
+            newData[walkup[0]]  = int(walkup[3].replace(',',''))
     
     return newData
 
@@ -263,7 +263,7 @@ def GetNumberOfWalkups(walkups):
     count = 0
 
     for walkup in walkups:
-        count += int(walkup[3])
+        count += int(walkup[3].replace(',',''))
     
     return count
 
@@ -554,6 +554,11 @@ statsByVendor  = GetStatsByVendor(ordersByVendor, members, config['CostPerSet'],
 accessUtilization = GenerateAccessUtilization(accesses, ordersByAccess, walkups, int(config['CountyFee']), start)
 vendorUtilization = GenerateVendorUtilization(statsByVendor, setDayCount, start)
 summary           = GenerateSummary(setDayCount, walkups, int(config['CountyFee']))
+
+CreateResultsCSV("accesses", accessUtilization)
+CreateResultsCSV("vendors", vendorUtilization)
+CreateResultsCSV("summary",summary)
+
 GenerateMVPReport(accessUtilization, vendorUtilization, summary, sys.argv[1], sys.argv[2])
 
 # SWBSA Reports

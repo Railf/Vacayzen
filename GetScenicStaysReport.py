@@ -45,38 +45,71 @@ def WaitForDownload(filename, extension):
         continue
 
 def PullReport():
-    print("requesting report...") 
-    itemStartDateFrom    = driver.find_element(By.XPATH,"//*[@id='trip-items-filters-list']/li[3]/div[1]/div/div/label[1]/span/input").click()
-    itemStartDateFrom    = driver.find_element(By.XPATH,"/html/body/div[5]/div[1]/table/thead/tr[2]/th[2]").click()
-    itemStartDateFrom    = driver.find_element(By.XPATH,"/html/body/div[5]/div[2]/table/tbody/tr/td/span[1]").click()
-    itemStartDateFrom    = driver.find_element(By.XPATH,"/html/body/div[5]/div[1]/table/tbody/tr[1]/td[7]").click()
+    try:
+        print("requesting report...") 
+        itemStartDateFrom    = driver.find_element(By.XPATH,"//*[@id='trip-items-filters-list']/li[3]/div[1]/div/div/label[1]/span/input").click()
+        itemStartDateFrom    = driver.find_element(By.XPATH,"/html/body/div[5]/div[1]/table/thead/tr[2]/th[2]").click()
+        itemStartDateFrom    = driver.find_element(By.XPATH,"/html/body/div[5]/div[2]/table/tbody/tr/td/span[1]").click()
+        itemStartDateFrom    = driver.find_element(By.XPATH,"/html/body/div[5]/div[1]/table/tbody/tr[1]/td[7]").click()
 
-    itemStartDateTo      = driver.find_element(By.XPATH,"/html/body/div[5]/div[1]/table/thead/tr[2]/th[2]").click()
-    itemStartDateTo      = driver.find_element(By.XPATH,"/html/body/div[5]/div[2]/table/tbody/tr/td/span[12]").click()
-    itemStartDateTo      = driver.find_element(By.XPATH,"/html/body/div[5]/div[1]/table/tbody/tr[5]/td[7]").click()
+        itemStartDateTo      = driver.find_element(By.XPATH,"/html/body/div[5]/div[1]/table/thead/tr[2]/th[2]").click()
+        itemStartDateTo      = driver.find_element(By.XPATH,"/html/body/div[5]/div[2]/table/tbody/tr/td/span[12]").click()
+        itemStartDateTo      = driver.find_element(By.XPATH,"/html/body/div[5]/div[1]/table/tbody/tr[5]/td[7]").click()
 
-    time.sleep(1)
+        time.sleep(1)
 
-    itemCheckoutDateFrom = driver.find_element(By.XPATH,"//*[@id='trip-items-filters-list']/li[3]/div[3]/div/div/label[1]/span/input").click()
-    itemCheckoutDateFrom = driver.find_element(By.XPATH,"/html/body/div[5]/div[1]/table/thead/tr[2]/th[2]").click()
-    itemCheckoutDateFrom = driver.find_element(By.XPATH,"/html/body/div[5]/div[2]/table/tbody/tr/td/span[1]").click()
-    itemCheckoutDateFrom = driver.find_element(By.XPATH,"/html/body/div[5]/div[1]/table/tbody/tr[1]/td[7]").click()
+        itemCheckoutDateFrom = driver.find_element(By.XPATH,"//*[@id='trip-items-filters-list']/li[3]/div[3]/div/div/label[1]/span/input").click()
+        itemCheckoutDateFrom = driver.find_element(By.XPATH,"/html/body/div[5]/div[1]/table/thead/tr[2]/th[2]").click()
+        itemCheckoutDateFrom = driver.find_element(By.XPATH,"/html/body/div[5]/div[2]/table/tbody/tr/td/span[1]").click()
+        itemCheckoutDateFrom = driver.find_element(By.XPATH,"/html/body/div[5]/div[1]/table/tbody/tr[1]/td[7]").click()
 
-    itemCheckoutDateTo   = driver.find_element(By.XPATH,"/html/body/div[5]/div[1]/table/thead/tr[2]/th[2]").click()
-    itemCheckoutDateTo   = driver.find_element(By.XPATH,"/html/body/div[5]/div[2]/table/tbody/tr/td/span[12]").click()
-    itemCheckoutDateTo   = driver.find_element(By.XPATH,"/html/body/div[5]/div[1]/table/tbody/tr[5]/td[7]").click()
+        itemCheckoutDateTo   = driver.find_element(By.XPATH,"/html/body/div[5]/div[1]/table/thead/tr[2]/th[2]").click()
+        itemCheckoutDateTo   = driver.find_element(By.XPATH,"/html/body/div[5]/div[2]/table/tbody/tr/td/span[12]").click()
+        itemCheckoutDateTo   = driver.find_element(By.XPATH,"/html/body/div[5]/div[1]/table/tbody/tr[5]/td[7]").click()
     
-    time.sleep(1)
+        time.sleep(1)
 
-    download             = driver.find_element(By.XPATH, "//*[@id='spine-content']/div[11]/article/div/div/div/article[2]/div[1]/div[1]/div[2]/div[2]/button").click()
+        download             = driver.find_element(By.XPATH, "//*[@id='spine-content']/div[11]/article/div/div/div/article[2]/div[1]/div[1]/div[2]/div[2]/button").click()
 
-    WaitForDownload("trip-items","csv")
+        WaitForDownload("trip-items","csv")
+
+    except:
+        NavigateToWebsite()
+        NavigateToReport()
+        print("requesting report...")
+        itemStartDateFrom    = driver.find_element(By.XPATH,"//*[@id='trip-items-filters-list']/li[3]/div[1]/div/div/label[1]/span/input").click()
+        itemStartDateFrom    = driver.find_element(By.XPATH,"/html/body/div[6]/div[1]/table/thead/tr[2]/th[2]").click()
+        itemStartDateFrom    = driver.find_element(By.XPATH,"/html/body/div[6]/div[2]/table/tbody/tr/td/span[1]").click()
+        itemStartDateFrom    = driver.find_element(By.XPATH,"/html/body/div[6]/div[1]/table/tbody/tr[1]/td[7]").click()
+
+        itemStartDateTo      = driver.find_element(By.XPATH,"/html/body/div[6]/div[1]/table/thead/tr[2]/th[2]").click()
+        itemStartDateTo      = driver.find_element(By.XPATH,"/html/body/div[6]/div[2]/table/tbody/tr/td/span[12]").click()
+        itemStartDateTo      = driver.find_element(By.XPATH,"/html/body/div[6]/div[1]/table/tbody/tr[5]/td[7]").click()
+
+        time.sleep(1)
+
+        itemCheckoutDateFrom = driver.find_element(By.XPATH,"//*[@id='trip-items-filters-list']/li[3]/div[3]/div/div/label[1]/span/input").click()
+        itemCheckoutDateFrom = driver.find_element(By.XPATH,"/html/body/div[6]/div[1]/table/thead/tr[2]/th[2]").click()
+        itemCheckoutDateFrom = driver.find_element(By.XPATH,"/html/body/div[6]/div[2]/table/tbody/tr/td/span[1]").click()
+        itemCheckoutDateFrom = driver.find_element(By.XPATH,"/html/body/div[6]/div[1]/table/tbody/tr[1]/td[7]").click()
+
+        itemCheckoutDateTo   = driver.find_element(By.XPATH,"/html/body/div[6]/div[1]/table/thead/tr[2]/th[2]").click()
+        itemCheckoutDateTo   = driver.find_element(By.XPATH,"/html/body/div[6]/div[2]/table/tbody/tr/td/span[12]").click()
+        itemCheckoutDateTo   = driver.find_element(By.XPATH,"/html/body/div[6]/div[1]/table/tbody/tr[5]/td[7]").click()
+    
+        time.sleep(1)
+
+        download             = driver.find_element(By.XPATH, "//*[@id='spine-content']/div[11]/article/div/div/div/article[2]/div[1]/div[1]/div[2]/div[2]/button").click()
+
+        WaitForDownload("trip-items","csv")
+
 
 
 NavigateToWebsite()
 Login(credentials.ScenicStays30A["username"],credentials.ScenicStays30A["password"])
 NavigateToReport()
 PullReport()
+
 
 print("done")
 driver.quit()

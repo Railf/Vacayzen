@@ -15,13 +15,12 @@ df['date'] = pd.to_datetime(df['date'])
 
 df = df[df['date'] > date]
 
-partners = credentials.partners
-
-for partner in partners:
+for partner in credentials.partners:
     df = df[df['email'].str.contains(partner) == False]
 
 df = df.sort_values('date')
 df = df.drop_duplicates()
 df = df.reset_index(drop=True)
 df.index += 1
+
 df.to_csv('/Users/workhorse/Downloads/contacts.csv')

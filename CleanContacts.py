@@ -7,11 +7,11 @@ pd.options.mode.chained_assignment = None
 
 date = pd.to_datetime(sys.argv[1])
 
-df = pd.read_csv("/Users/workhorse/Downloads/ConstantContact.csv", index_col=False)
+df = pd.read_csv("/Users/workhorse/Downloads/Constant Contact.csv", index_col=False)
 
 df.columns = ['contact','email','date']
 
-df['date'] = pd.to_datetime(df['date'])
+df['date'] = pd.to_datetime(df['date']).dt.floor('d')
 
 df = df[df['date'] > date]
 

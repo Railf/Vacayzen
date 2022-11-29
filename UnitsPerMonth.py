@@ -29,6 +29,10 @@ pelotons.columns = ['partners','property','units','start','end']
 categories = [bikes, garts, sets, pelotons]
 
 for category in categories:
+    category['start'] = pd.to_datetime(category['start'])
+    category['end'] = pd.to_datetime(category['end'])
+
+for category in categories:
     name = [x for x in globals() if globals()[x] is category][0]
     path = "/Users/workhorse/Downloads/" + name + ".csv"
     category.to_csv(path)

@@ -30,7 +30,10 @@ categories = [bikes, garts, sets, pelotons]
 
 for category in categories:
     category['start'] = pd.to_datetime(category['start'])
-    category['end'] = pd.to_datetime(category['end'])
+    category['end']   = pd.to_datetime(category['end'])
+    category = category[category.start.isna()]
+
+
 
 for category in categories:
     name = [x for x in globals() if globals()[x] is category][0]

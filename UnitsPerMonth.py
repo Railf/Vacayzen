@@ -26,16 +26,29 @@ garts.columns    = ['partners','property','units','type','start','end']
 sets.columns     = ['partners','property','units','start','end']
 pelotons.columns = ['partners','property','units','start','end']
 
-categories = [bikes, garts, sets, pelotons]
 
-for category in categories:
-    category['start'] = pd.to_datetime(category['start'])
-    category['end']   = pd.to_datetime(category['end'])
-    category = category[category.start.isna()]
+bikes['start'] = pd.to_datetime(bikes['start'])
+bikes['end']   = pd.to_datetime(bikes['end'])
+bikes = bikes[bikes.start.isna() == False]
 
 
+garts['start'] = pd.to_datetime(garts['start'])
+garts['end']   = pd.to_datetime(garts['end'])
+garts = garts[garts.start.isna() == False]
 
-for category in categories:
-    name = [x for x in globals() if globals()[x] is category][0]
-    path = "/Users/workhorse/Downloads/" + name + ".csv"
-    category.to_csv(path)
+sets['start'] = pd.to_datetime(sets['start'])
+sets['end']   = pd.to_datetime(sets['end'])
+sets = sets[sets.start.isna() == False]
+
+pelotons['start'] = pd.to_datetime(pelotons['start'])
+pelotons['end']   = pd.to_datetime(pelotons['end'])
+pelotons = pelotons[pelotons.start.isna() == False]
+
+date_range = pd.date_range("01/01/2022","12/31/2022")
+print(date_range)
+
+
+bikes.to_csv('/Users/workhorse/Downloads/_bikes.csv')
+garts.to_csv('/Users/workhorse/Downloads/_garts.csv')
+sets.to_csv('/Users/workhorse/Downloads/_sets.csv')
+pelotons.to_csv('/Users/workhorse/Downloads/_pelotons.csv')

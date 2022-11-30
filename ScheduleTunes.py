@@ -38,15 +38,18 @@ def ScheduleTune(date):
     date = date.strftime("%m/%d/%Y")
     date = date + " 9:00 AM"
 
+    driver.execute_script("window.scrollTo(0,document.body.scrollHeight)")
+
     try:
         if EC.presence_of_element_located((By.ID,"btnmodalClose")): driver.find_element(By.ID,"btnmodalClose").click()
         driver.execute_script("window.scrollTo(0,document.body.scrollHeight)")
+        time.sleep(0.5)
         wait.until(EC.presence_of_element_located((By.ID,"MainContent_btnAddServiceItem"))).click()
     except:
         driver.execute_script("window.scrollTo(0,document.body.scrollHeight)")
+        time.sleep(0.5)
         wait.until(EC.presence_of_element_located((By.ID,"MainContent_btnAddServiceItem"))).click()
     
-    time.sleep(0.5)
     service = wait.until(EC.presence_of_element_located((By.ID,"serviceAutocomplete"))).send_keys('EOY Tune')
     time.sleep(0.5)
     service = wait.until(EC.element_to_be_clickable((By.ID,"serviceAutocomplete_listbox"))).click()

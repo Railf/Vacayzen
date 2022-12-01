@@ -24,7 +24,7 @@ garts.columns    = ['partner','property','units','type','start','end']
 sets.columns     = ['partner','property','units','start','end']
 pelotons.columns = ['partner','property','units','start','end']
 
-date_range = pd.date_range("01/01/2022","10/31/2022",freq="M")
+date_range = pd.date_range("01/01/2022","12/31/2022",freq="M")
 
 categories = [bikes, garts, sets, pelotons]
 
@@ -57,5 +57,5 @@ for i, result in enumerate(results):
     elif i == 3: name = 'pelotons'
 
     file = '/Users/workhorse/Downloads/' + name + '.csv'
-    
+
     result.to_csv(file)

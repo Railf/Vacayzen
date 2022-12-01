@@ -51,7 +51,7 @@ def ScheduleTune(date):
         wait.until(EC.presence_of_element_located((By.ID,"MainContent_btnAddServiceItem"))).click()
     
     service = wait.until(EC.presence_of_element_located((By.ID,"serviceAutocomplete"))).send_keys('EOY Tune')
-    time.sleep(0.5)
+    time.sleep(0.75)
     service = wait.until(EC.element_to_be_clickable((By.ID,"serviceAutocomplete_listbox"))).click()
     service = driver.find_element(By.ID,"ServiceReturnDate").send_keys(date)
 

@@ -1,77 +1,94 @@
+from pathlib import Path
+from glob import glob
+
 import pandas as pd
 
+import credentials
+import webbrowser
+import os
 import sys
 
 pd.options.mode.chained_assignment = None
 
-start_date = pd.to_datetime(sys.argv[1])
-end_date   = pd.to_datetime(sys.argv[2])
+partners = {
+    '30A Luxury': [],
+    '360 Blue':   [],
+    'Callista':   [],
+    'Dune':       [],
+    'Exclusive':  [],
+    'Oversee':    [],
+    'Royal':      []
+}
 
-df = pd.read_csv("/Users/workhorse/Downloads/main.csv", index_col=False)
 
+def WaitForDownload(filename, extension):
+    print("downloading...")
+
+    os.chdir(str(Path.home() / "Downloads"))
+
+    while not glob(filename + "*." + extension): continue
+
+
+webbrowser.open(credentials.Links['Partner Program Register'])
+webbrowser.open(credentials.Links['Partner Billing Escapia'])
+
+WaitForDownload('Partner Program Register - REGISTER','csv')
+
+df = pd.read_csv("/Users/workhorse/Downloads/Partner Program Register - REGISTER.csv", index_col=False)
+# billing = pd.read_csv("/Users/workhorse/Downloads/Partner Program Register - REGISTER.csv", index_col=False)
 
 df.columns = [
-    'sort', 'partner', 'code', 'note', 'name', 'area', 'address', 'order', 'payment',
-    'bike_count', 'bike_type', 'bike_lock', 'bike_storage', 'bike_start', 'bike_end',
-    'beach_sort', 'beach_count', 'beach_label', 'beach_area', 'beach_access', 'beach_notes', 'beach_storage', 'beach_start', 'beach_end',
-    'gart_count', 'gart_type', 'gart_storage', 'gart_number', 'gart_lock', 'gart_plate', 'gart_vin', 'gart_waiver', 'gart_start', 'gart_end',
-    'peloton_count', 'peloton_storage', 'peloton_wifi_name', 'peloton_wifi_password', 'peloton_start', 'peloton_end'
+    'geo','partner','property','notes','name','area','address','order','payment',
+    'bike_count','bike_type','bike_lock','bike_storage','bike_start','bike_end',
+    'gart_count','gart_type','gart_storage','gart_number','gart_lockbox','gart_plate','gart_vin','gart_waiver','gart_start','gart_end',
+    'sets_geo','set_count','sets_tag','sets_access','sets_notes','sets_storage','set_start','set_end',
+    'peloton_count','peloton_storage','peloton_wifi_name','peloton_wifi_password','peloton_start','peloton_end'
     ]
 
-df['bike_start']    = pd.to_datetime(df['bike_start'])
-df['bike_end']      = pd.to_datetime(df['bike_end'])
-df['beach_start']   = pd.to_datetime(df['beach_start'])
-df['beach_end']     = pd.to_datetime(df['beach_end'])
-df['gart_start']    = pd.to_datetime(df['gart_start'])
-df['gart_end']      = pd.to_datetime(df['gart_end'])
-df['peloton_start'] = pd.to_datetime(df['peloton_start'])
-df['peloton_end']   = pd.to_datetime(df['peloton_end'])
+df = df[df['payment'] == 'Paid']
 
-bike = df[[
-    'sort', 'partner', 'code', 'note', 'name', 'area', 'address', 'order', 'payment',
-    'bike_count', 'bike_type', 'bike_lock', 'bike_storage', 'bike_start', 'bike_end'
-]]
+bikes    = df[['partner','property','bike_count','bike_type','bike_start','bike_end']]
+garts    = df[['partner','property','gart_count','gart_type','gart_start','gart_end']]
+sets     = df[['partner','property','set_count','set_start','set_end']]
+pelotons = df[['partner','property','peloton_count','peloton_start','peloton_end']]
 
-beach = df[[
-    'sort', 'partner', 'code', 'note', 'name', 'area', 'address', 'order', 'payment',
-    'beach_sort', 'beach_count', 'beach_label', 'beach_area', 'beach_access', 'beach_notes', 'beach_storage', 'beach_start', 'beach_end'
-]]
+bikes.columns    = ['partner','property','units','type','start','end']
+garts.columns    = ['partner','property','units','type','start','end']
+sets.columns     = ['partner','property','units','start','end']
+pelotons.columns = ['partner','property','units','start','end']
 
-gart = df[[
-    'sort', 'partner', 'code', 'note', 'name', 'area', 'address', 'order', 'payment',
-    'gart_count', 'gart_type', 'gart_storage', 'gart_number', 'gart_lock', 'gart_plate', 'gart_vin', 'gart_waiver', 'gart_start', 'gart_end'
-]]
+date_range = pd.date_range("01/01/2022","12/31/2022",freq="M")
 
-peloton = df[[
-    'sort', 'partner', 'code', 'note', 'name', 'area', 'address', 'order', 'payment',
-    'peloton_count', 'peloton_storage', 'peloton_wifi_name', 'peloton_wifi_password', 'peloton_start', 'peloton_end'
-]]
+categories = [bikes, garts, sets, pelotons]
 
-bike    = bike[(bike.bike_start < end_date)          & ((bike.bike_end >= start_date)       | (bike.bike_end.isna()))]
-beach   = beach[(beach.beach_start < end_date)       & ((beach.beach_end >= start_date)     | (beach.beach_end.isna()))]
-gart    = gart[(gart.gart_start < end_date)          & ((gart.gart_end >= start_date)       | (gart.gart_end.isna()))]
-peloton = peloton[(peloton.peloton_start < end_date) & ((peloton.peloton_end >= start_date) | (peloton.peloton_end.isna()))]
+results = []
 
-for row in bike.index:
-    if bike.at[row, "bike_start"] < start_date: bike.at[row, "bike_start"] = start_date
-    if bike.at[row, "bike_end"] > end_date:     bike.at[row, "bike_end"]   = end_date
-    if pd.isna(bike.at[row, "bike_end"]):       bike.at[row, "bike_end"]   = end_date
+for category in categories:
+    df = category
 
-bike = bike.sort_values('partner')
+    df['start'] = pd.to_datetime(df['start'])
+    df['end']   = pd.to_datetime(df['end'])
+    df = df[df.start.isna() == False]
 
-bike.to_csv('/Users/workhorse/Downloads/bike.csv')
-# beach.to_csv('/Users/workhorse/Downloads/beach.csv')
-# gart.to_csv('/Users/workhorse/Downloads/gart.csv')
-# peloton.to_csv('/Users/workhorse/Downloads/peloton.csv')
+    year = []
 
+    for date in date_range:
+        month = df[(df.start <= date) & ((df.end > date) | (df.end.isna()))]
+        month = month.groupby(['partner']).sum(True)
+        month.columns = [date]
+        year.append(month)
 
+    result = pd.concat(year, axis=1)
+    results.append(result)
 
-# # started before the end of the period
-# # ended after the start of the period, or not end
+for i, result in enumerate(results):
+    name = ''
 
-# relevant = df[(df.start < end_date) & ((df.end >= start_date) | (df.end.isna()))]
+    if   i == 0: name = 'bikes'
+    elif i == 1: name = 'garts'
+    elif i == 2: name = 'sets'
+    elif i == 3: name = 'pelotons'
 
+    file = '/Users/workhorse/Downloads/' + name + '.csv'
 
-
-# relevant = relevant.sort_values("type")
-# relevant.to_csv("/Users/workhorse/Downloads/results.csv")
+    result.to_csv(file)

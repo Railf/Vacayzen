@@ -1,5 +1,6 @@
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
+from dateutil.relativedelta import relativedelta
 from selenium.webdriver.common.by import By
 from selenium import webdriver
 from datetime import date
@@ -31,7 +32,8 @@ def NavigateToReport():
     driver.get(credentials.Benchmark["url-Report"])
 
 def GetPullThroughDate():
-    return ("12/31/" + date.today().strftime("%Y"))
+    result = date.today() + relativedelta(months=+6)
+    return result.strftime("%m/%d/%Y")
 
 def WaitForDownload(filename, extension):
     print("downloading...")

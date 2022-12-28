@@ -1,16 +1,15 @@
 import pandas as pd
 
-df = pd.read_excel("/Users/workhorse/Downloads/Inventory Adjustments.xlsx")
+ra  = pd.read_csv("/Users/workhorse/Downloads/inventory/dbo_RentalAgreement.csv", low_memory=False)
+ral = pd.read_csv("/Users/workhorse/Downloads/inventory/dbo_RentalAgreementLines.csv", low_memory=False)
 
-df.columns = ['asset','transaction','amount','date']
+ra = ra.loc[ra['RentalAgreementTypeID'].isin([1,2])]
+ra = ra[ra['RentalStage'] != 'Cancel']
+ra = ra[ra.RentalAgreementNo != 33793]
 
-df['date'] = pd.to_datetime(df['date'])
+ral = ral.loc[ral['RentalAgreementID'].isin(ra['RentalAgreementNo'].values)]
 
-df.sort_values(by='date')
+control = ral['RentalAgreementID'][ral.RentalAssetMasterID == 236].values
+ral = ral[ral.RentalAgreementID.isin(control) == False]
 
-range = pd.date_range(df.date.iloc[0],df.date.iloc[-1])
-
-assets = pd.DataFrame(df.asset)
-
-for date in range:
-    temp = df[df.date == date]
+print(ral)

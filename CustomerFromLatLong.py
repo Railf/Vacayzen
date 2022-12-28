@@ -1,11 +1,11 @@
 import pandas as pd
 
-data     = pd.read_csv("/Users/workhorse/Downloads/CustomerFromLatLong.csv")
-partners = pd.read_csv("/Users/workhorse/Downloads/partners.csv", index_col="CID")
+df     = pd.read_csv("/Users/workhorse/Downloads/CustomerFromLatLong.csv")
+partners = pd.read_csv("/Users/workhorse/Downloads/partners.csv")
 
 
-print(data.columns)
+df = df.loc[df['CustomerNumber'].isin(partners.CID.values)]
 
-test = data.loc[data['CustomerNumber'].isin(partners.index.values)]
+out = df.merge(partners, left_on='CustomerNumber', right_on='CID').reindex(columns=['CID','Customer','RentalAgreementReservationEndDate','AgreementTotal'])
 
-print(test)
+out.to_csv("/Users/workhorse/Downloads/test.csv")

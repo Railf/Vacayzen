@@ -51,5 +51,13 @@ for day in date_range:
 
     inventory_by_date.append(temp)
 
-utilization = pd.concat(inventory_by_date)
-utilization.to_csv('/Users/workhorse/Downloads/utilization_by_date.csv')
+assets = pd.concat(inventory_by_date)
+
+assets = assets[['quantity','date']]
+assets.reset_index(drop=True)
+
+assets.to_csv('/Users/workhorse/Downloads/utilization_by_date.csv')
+
+buckets = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+
+# for bucket in buckets:

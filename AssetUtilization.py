@@ -57,7 +57,16 @@ assets = assets[['quantity','date']]
 assets.reset_index(drop=True)
 
 assets.to_csv('/Users/workhorse/Downloads/utilization_by_date.csv')
+assets = assets.reset_index()
 
-buckets = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+buckets = []
+for i in range(5,1005,5): buckets.append(i)
 
-# for bucket in buckets:
+groups = {}
+
+for bucket in buckets:
+    temp = assets[assets.quantity >= bucket]
+    groups[bucket] = temp.groupby('asset').count()['quantity']
+
+results = pd.DataFrame.from_dict(groups)
+results.to_csv('/Users/workhorse/Downloads/assets_by_bucket.csv')

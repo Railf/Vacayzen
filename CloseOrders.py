@@ -63,7 +63,7 @@ def GetDataFromCSV():
         reader = csv.reader(file)
 
         for row in reader:
-            if row[10] == row[11] and IsOrderReturnedBeforeToday(row[8]):
+            if row[2] == 'Started - Returned All' and row[10] == row[11] and IsOrderReturnedBeforeToday(row[8]):
                 data.append([row[4], row[8], row[10], row[11]])
     
     return data

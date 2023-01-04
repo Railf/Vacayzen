@@ -60,7 +60,7 @@ assets.to_csv('/Users/workhorse/Downloads/utilization_by_date.csv')
 assets = assets.reset_index()
 
 buckets = []
-for i in range(5,1005,5): buckets.append(i)
+for i in range(1,1001,1): buckets.append(i)
 
 groups = {}
 

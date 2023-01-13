@@ -26,7 +26,6 @@ def CreateCSV(name, data):
 
 
 properties = GetDataFromCSV()
-counts     = []
 results    = []
 
 for index, property in enumerate(properties):

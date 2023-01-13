@@ -30,10 +30,7 @@ counts     = []
 results    = []
 
 for index, property in enumerate(properties):
-    counts.append(int(property['Count']))
-
-for index, property in enumerate(properties):
-    for x in range(counts[index]):
+    for x in range(int(property['Count'])):
         results.append([property['Name'],property['Address']])
 
 CreateCSV("results", results)

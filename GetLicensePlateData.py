@@ -3,10 +3,13 @@ from pathlib import Path
 import csv
 
 
-def GetDataFromCSV():
+def GetDictFromCSV(file):
+    print("creating dictionary from",file + "...")
+    filePath = "Downloads/" + file
+
     data = {}
-    with open(Path.home() / "Downloads/plates.csv") as file:
-        reader = csv.DictReader(file)
+    with open(Path.home() / filePath) as openFile:
+        reader = csv.DictReader(openFile)
 
         data = list(reader)
     
@@ -25,7 +28,7 @@ def CreateCSV(name, data):
         write.writerows(data)
 
 
-properties = GetDataFromCSV()
+properties = GetDictFromCSV("plates.csv")
 results    = []
 
 for index, property in enumerate(properties):

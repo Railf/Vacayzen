@@ -28,11 +28,36 @@ def CreateCSV(name, data):
         write.writerows(data)
 
 
-properties = GetDictFromCSV("plates.csv")
-results    = []
+properties  = GetDictFromCSV("plates.csv")
+houseName   = []
+noHouseName = []
+plateCount  = 0
 
 for index, property in enumerate(properties):
+    plateCount += int(property['Count'])
     for x in range(int(property['Count'])):
-        results.append([property['Name'],property['Address']])
+        if property['Name'] == '':
+            noHouseName.append([index, '',property['Address']])
+        else:
+            houseName.append([index, property['Name'], property['Address']])
 
-CreateCSV("results", results)
+for index, property in enumerate(houseName):
+    property[0] = "HOUSE-" + str(index)
+
+for index, property in enumerate(noHouseName):
+    property[0] = "NOHOUSE-" + str(index)
+
+
+platesWithNames   = len(houseName)
+platesWithNoNames = len(noHouseName)
+
+if platesWithNames > 0: CreateCSV("house", houseName)
+if platesWithNoNames > 0: CreateCSV("no house", noHouseName)
+
+print("")
+print("plates requested in file:           ", plateCount)
+print("plates for homes with house name:   ", platesWithNames)
+print("plates for homes without house name:", platesWithNoNames)
+print("plates to be printed:               ", platesWithNames + platesWithNoNames)
+print("")
+print("plates requested match to-be-printed?", str(plateCount == (platesWithNames + platesWithNoNames)).lower())

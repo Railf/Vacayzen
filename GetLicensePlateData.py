@@ -1,6 +1,11 @@
 from pathlib import Path
 
+import numpy as np
+
 import csv
+
+
+ROWS_PER_FILE = 750
 
 
 def GetDictFromCSV(file):
@@ -50,9 +55,30 @@ for index, property in enumerate(noHouseName):
 
 platesWithNames   = len(houseName)
 platesWithNoNames = len(noHouseName)
+houseFiles        = []
+noHouseFiles      = []
 
-if platesWithNames > 0:   CreateCSV('house',    houseName)
-if platesWithNoNames > 0: CreateCSV('no house', noHouseName)
+while (len(houseName) > ROWS_PER_FILE):
+    houseFiles.append(houseName[:ROWS_PER_FILE])
+    houseName = houseName[ROWS_PER_FILE:]
+
+if len(houseName) > 0: houseFiles.append(houseName)
+
+for index, file in enumerate(houseFiles):
+    if index == 0: CreateCSV('house', file)
+    else:          CreateCSV('house_'+str(index), file)
+
+
+while (len(noHouseName) > ROWS_PER_FILE):
+    noHouseFiles.append(noHouseName[:ROWS_PER_FILE])
+    noHouseName = noHouseName[ROWS_PER_FILE:]
+
+if len(noHouseName) > 0: noHouseFiles.append(noHouseName)
+
+for index, file in enumerate(noHouseFiles):
+    if index == 0: CreateCSV('no house', file)
+    else:          CreateCSV('no house_'+str(index), file)
+
 
 print('')
 print('plates requested in file:            ', plateCount)
@@ -61,3 +87,6 @@ print('plates for homes without house name: ', platesWithNoNames)
 print('plates to be printed:                ', platesWithNames + platesWithNoNames)
 print('')
 print('plates requested match to-be-printed?', str(plateCount == (platesWithNames + platesWithNoNames)).lower())
+print('')
+print('house files:                         ', len(houseFiles))
+print('no house files:                      ', len(noHouseFiles))

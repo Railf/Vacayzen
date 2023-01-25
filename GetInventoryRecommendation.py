@@ -7,6 +7,8 @@ pd.options.mode.chained_assignment = None
 range_start = pd.to_datetime(sys.argv[1] + ' 18:00:00')
 range_end   = pd.to_datetime(sys.argv[2] + ' 10:00:00')
 
+print('organizing asset data...')
+
 df = pd.read_csv("/Users/workhorse/Downloads/AssetUtilization.csv")
 
 ## FIELDS
@@ -37,6 +39,8 @@ df          = df[['Description','Quantity','RentalAgreementReservationStartDate'
 df.columns  = ['asset','quantity','start','end']
 df          = df.reset_index()
 
+print('calculating rentals per day per asset...')
+
 df['start'] = pd.to_datetime(df['start'])
 df['end']   = pd.to_datetime(df['end'])
 
@@ -58,6 +62,8 @@ assets.reset_index(drop=True)
 
 assets = assets.reset_index()
 
+print('calculating how many times each asset was rented...')
+
 buckets = []
 for i in range(1,1001,1): buckets.append(i)
 
@@ -70,11 +76,15 @@ for bucket in buckets:
 utilization = pd.DataFrame.from_dict(groups)
 utilization = utilization.astype(float)
 
+
+print('grabbing asset price rates...')
+
 asset_rates = pd.read_csv("/Users/workhorse/Downloads/assets.csv", index_col='asset')
 asset_rates = asset_rates.dropna()
 asset_rates = asset_rates.astype(float)
 
-# CALCULATE ANNUAL REVENUE @ INVENTORY NUMBER
+
+print('calculating annual revenue at inventory number...')
 
 rows = []
 
@@ -84,7 +94,7 @@ for column in utilization.columns:
 annual_revenue = pd.concat(rows,axis=1)
 annual_revenue.columns += 1
 
-# CALCULATE FIXED COST @ INVENTORY NUMBER
+print('calculating fixed cost at inventory number...')
 
 rows = []
 
@@ -94,7 +104,7 @@ for column in utilization.columns:
 fixed_cost = pd.concat(rows,axis=1)
 fixed_cost.columns += 1
 
-# CALCULATE VARIABLE LABOR
+print('calculating variable labor...')
 
 rows = []
 
@@ -103,25 +113,31 @@ for column in utilization.columns:
 
 variable_labor = pd.concat(rows,axis=1)
 
-# CALCULATE MARGINAL REVENUE
+print('calculating marginal revenue...')
 
 marginal_revenue = annual_revenue - fixed_cost - variable_labor
+
+print('determining recommendations...')
 
 recommendation = []
 
 for asset in marginal_revenue.iterrows():
-    number = 0
-
     for index, column in enumerate(asset[1]):
         if column < 0:
             recommendation.append([asset[0],index])
             break
+        elif pd.isna(column):
+            recommendation.append([asset[0],index])
+            break
+        elif index == len(asset[1]) - 1:
+            recommendation.append([asset[0],index])
 
 recommendation         = pd.DataFrame(recommendation)
 recommendation.columns = ['asset','recommendation']
 recommendation         = recommendation.set_index('asset')
+recommendation         = recommendation[recommendation['recommendation'] > 0]
 
-print('building deliverables...', end=" ")
+print('building deliverables...')
 
 with pd.ExcelWriter('/Users/workhorse/Downloads/recommendation_work.xlsx') as writer:
     utilization.to_excel(writer,      sheet_name='utilization')

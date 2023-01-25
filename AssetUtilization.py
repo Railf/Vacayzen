@@ -56,7 +56,7 @@ assets = pd.concat(inventory_by_date)
 assets = assets[['quantity','date']]
 assets.reset_index(drop=True)
 
-assets.to_csv('/Users/workhorse/Downloads/utilization_by_date.csv')
+# assets.to_csv('/Users/workhorse/Downloads/utilization_by_date.csv')
 assets = assets.reset_index()
 
 buckets = []
@@ -68,5 +68,53 @@ for bucket in buckets:
     temp = assets[assets.quantity >= bucket]
     groups[bucket] = temp.groupby('asset').count()['quantity']
 
-results = pd.DataFrame.from_dict(groups)
-results.to_csv('/Users/workhorse/Downloads/assets_by_bucket.csv')
+utilization = pd.DataFrame.from_dict(groups)
+utilization = utilization.astype(float)
+# results.to_csv('/Users/workhorse/Downloads/assets_by_bucket.csv')
+
+asset_rates = pd.read_csv("/Users/workhorse/Downloads/assets.csv", index_col='asset')
+asset_rates = asset_rates.dropna()
+asset_rates = asset_rates.astype(float)
+
+# CALCULATE ANNUAL REVENUE @ INVENTORY NUMBER
+
+rows = []
+
+for column in utilization.columns:
+    rows.append(utilization[column] * asset_rates['daily_price'])
+
+annual_revenue = pd.concat(rows,axis=1)
+annual_revenue.columns += 1
+
+# CALCULATE FIXED COST @ INVENTORY NUMBER
+
+rows = []
+
+for column in utilization.columns:
+    rows.append(utilization[column] * 0 + asset_rates['unit_price'])
+
+fixed_cost = pd.concat(rows,axis=1)
+fixed_cost.columns += 1
+
+# CALCULATE VARIABLE LABOR
+
+rows = []
+
+for column in utilization.columns:
+    rows.append(utilization[column] * 0)
+
+variable_labor = pd.concat(rows,axis=1)
+
+# CALCULATE MARGINAL REVENUE
+
+marginal_revenue = annual_revenue - fixed_cost - variable_labor
+
+print('building deliverable...', end=" ")
+with pd.ExcelWriter('/Users/workhorse/Downloads/recommendation.xlsx') as writer:
+    utilization.to_excel(writer, sheet_name='utilization')
+    asset_rates.to_excel(writer, sheet_name='asset_rates')
+    annual_revenue.to_excel(writer, sheet_name='annual revenue')
+    fixed_cost.to_excel(writer, sheet_name='fixed cost')
+    variable_labor.to_excel(writer, sheet_name='variable labor')
+    marginal_revenue.to_excel(writer, sheet_name='marginal revenue')
+print('done')

@@ -109,12 +109,30 @@ variable_labor = pd.concat(rows,axis=1)
 
 marginal_revenue = annual_revenue - fixed_cost - variable_labor
 
+recommendation = []
+
+for asset in marginal_revenue.iterrows():
+    number = 0
+
+    for index, column in enumerate(asset[1]):
+        if column < 0:
+            recommendation.append([asset[0],index])
+            break
+
+recommendation = pd.DataFrame(recommendation)
+recommendation.columns = ['asset','recommendation']
+recommendation = recommendation.set_index('asset')
+
 print('building deliverable...', end=" ")
-with pd.ExcelWriter('/Users/workhorse/Downloads/recommendation.xlsx') as writer:
+
+with pd.ExcelWriter('/Users/workhorse/Downloads/recommendation_work.xlsx') as writer:
     utilization.to_excel(writer, sheet_name='utilization')
     asset_rates.to_excel(writer, sheet_name='asset_rates')
     annual_revenue.to_excel(writer, sheet_name='annual revenue')
     fixed_cost.to_excel(writer, sheet_name='fixed cost')
     variable_labor.to_excel(writer, sheet_name='variable labor')
     marginal_revenue.to_excel(writer, sheet_name='marginal revenue')
+
+recommendation.to_csv('/Users/workhorse/Downloads/recommendation.csv')
+
 print('done')

@@ -56,7 +56,6 @@ assets = pd.concat(inventory_by_date)
 assets = assets[['quantity','date']]
 assets.reset_index(drop=True)
 
-# assets.to_csv('/Users/workhorse/Downloads/utilization_by_date.csv')
 assets = assets.reset_index()
 
 buckets = []
@@ -70,7 +69,6 @@ for bucket in buckets:
 
 utilization = pd.DataFrame.from_dict(groups)
 utilization = utilization.astype(float)
-# results.to_csv('/Users/workhorse/Downloads/assets_by_bucket.csv')
 
 asset_rates = pd.read_csv("/Users/workhorse/Downloads/assets.csv", index_col='asset')
 asset_rates = asset_rates.dropna()

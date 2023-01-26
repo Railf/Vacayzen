@@ -119,6 +119,20 @@ marginal_revenue = annual_revenue - fixed_cost - variable_labor
 
 print('determining recommendations...')
 
+max_utilization = []
+
+for asset in utilization.iterrows():
+    for index, column in enumerate(asset[1]):
+        if pd.isna(column):
+            max_utilization.append([asset[0],index])
+            break
+        elif index == len(asset[1]) - 1:
+            max_utilization.append([asset[0],index+1])
+
+max_utilization         = pd.DataFrame(max_utilization)
+max_utilization.columns = ['asset','max']
+max_utilization         = max_utilization.set_index('asset')
+
 recommendation = []
 
 for asset in marginal_revenue.iterrows():
@@ -130,7 +144,7 @@ for asset in marginal_revenue.iterrows():
             recommendation.append([asset[0],index])
             break
         elif index == len(asset[1]) - 1:
-            recommendation.append([asset[0],index])
+            recommendation.append([asset[0],index+1])
 
 recommendation         = pd.DataFrame(recommendation)
 recommendation.columns = ['asset','recommendation']
@@ -148,5 +162,6 @@ with pd.ExcelWriter('/Users/workhorse/Downloads/recommendation_work.xlsx') as wr
     marginal_revenue.to_excel(writer, sheet_name='marginal revenue')
 
 recommendation.to_csv('/Users/workhorse/Downloads/recommendation.csv')
+max_utilization.to_csv('/Users/workhorse/Downloads/max_utilization.csv')
 
 print('done')

@@ -164,6 +164,5 @@ with pd.ExcelWriter('/Users/workhorse/Downloads/recommendation_work.xlsx') as wr
 recommendation['max'] = max_utilization['max']
 
 recommendation.to_csv('/Users/workhorse/Downloads/recommendation.csv')
-# max_utilization.to_csv('/Users/workhorse/Downloads/max_utilization.csv')
 
 print('done')

@@ -65,7 +65,7 @@ assets = assets.reset_index()
 print('calculating how many times each asset was rented...')
 
 buckets = []
-for i in range(1,1001,1): buckets.append(i)
+for i in range(1,1020,1): buckets.append(i)
 
 groups = {}
 
@@ -161,7 +161,9 @@ with pd.ExcelWriter('/Users/workhorse/Downloads/recommendation_work.xlsx') as wr
     variable_labor.to_excel(writer,   sheet_name='variable labor')
     marginal_revenue.to_excel(writer, sheet_name='marginal revenue')
 
+recommendation['max'] = max_utilization['max']
+
 recommendation.to_csv('/Users/workhorse/Downloads/recommendation.csv')
-max_utilization.to_csv('/Users/workhorse/Downloads/max_utilization.csv')
+# max_utilization.to_csv('/Users/workhorse/Downloads/max_utilization.csv')
 
 print('done')

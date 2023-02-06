@@ -62,4 +62,10 @@ assets.reset_index(drop=True)
 
 assets = assets.reset_index()
 
+inventory = pd.read_csv("/Users/workhorse/Downloads/Inventory By Item.csv")
+inventory.columns = ['asset','inventory']
+
+assets = assets.merge(inventory,'left','asset')
+assets['utilization'] = assets['quantity'] / assets['inventory']
+
 assets.to_csv("/Users/workhorse/Downloads/utilization.csv")

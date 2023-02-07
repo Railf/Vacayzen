@@ -6,6 +6,6 @@ partners = pd.read_csv("/Users/workhorse/Downloads/partners.csv")
 
 df  = df.loc[df['CustomerNumber'].isin(partners.CID.values)]
 
-out = df.merge(partners, left_on='CustomerNumber', right_on='CID').reindex(columns=['CID','Customer','RentalAgreementReservationEndDate','AgreementTotal'])
+out = df.merge(partners, left_on='CustomerNumber', right_on='CID').reindex(columns=['CID','Customer','PaymentDate','TransactionAmount'])
 
-out.to_csv("/Users/workhorse/Downloads/test.csv")
+out.to_csv("/Users/workhorse/Downloads/channel_partners.csv")

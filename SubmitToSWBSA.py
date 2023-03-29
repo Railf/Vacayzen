@@ -143,6 +143,7 @@ def ClickSubmit():
     WebDriverWait(driver, 100).until(EC.element_to_be_clickable((By.ID,"btnSubmit"))).click()
     WebDriverWait(driver, 100).until(EC.element_to_be_clickable((By.XPATH,"//*[@id='alertModal']/div/div/div[3]/button")))
 
+
 def GetSubmissionStatus():
     status = WebDriverWait(driver, 100).until(EC.presence_of_element_located((By.XPATH, "//*[@id='alertModal']/div/div/div[1]/h4"))).text
     note   = WebDriverWait(driver, 100).until(EC.presence_of_element_located((By.XPATH,"//*[@id='alertModal']/div/div/div[2]/div/p"))).text

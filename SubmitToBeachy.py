@@ -1,3 +1,4 @@
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.keys import Keys
@@ -10,8 +11,11 @@ import webbrowser
 import time
 import csv
 
+
 options = webdriver.ChromeOptions()
 driver  = webdriver.Chrome(options=options)
+action  = ActionChains(driver)
+
 
 def GetDataFromCSV():
     print("grabbing data from BEACHY REPORT.csv...")
@@ -25,8 +29,10 @@ def GetDataFromCSV():
     
     return data
 
+
 def NavigateToNewOrderScreen():
     driver.get(credentials.beachy_Vacayzen["url"])
+
 
 def NavigateToDestinationItem(destination, item):
     ClickAtID("select2-destination-select-container")
@@ -36,23 +42,33 @@ def NavigateToDestinationItem(destination, item):
     ProvideTextToXPATH(item + Keys.RETURN,"/html/body/span/span/span[1]/input")
     time.sleep(0.2)
 
+
 def ProvideTextToID(text, id):
     driver.find_element(By.ID,id).send_keys(text)
+
 
 def ProvideTextToXPATH(text, xpath):
     driver.find_element(By.XPATH, xpath).send_keys(text)
 
+
 def ClickAtID(id):
     WebDriverWait(driver, 100).until(EC.element_to_be_clickable((By.ID, id))).click()
 
+
 def ClickAtXPATH(xpath):
     WebDriverWait(driver, 100).until(EC.element_to_be_clickable((By.XPATH, xpath))).click()
+
+
+def ClearAtXPATH(xpath):
+    driver.find_element(By.XPATH, xpath).clear()
+
 
 def Login():
     NavigateToNewOrderScreen()
     ProvideTextToID(credentials.beachy_Vacayzen["username"], "login_email")
     ProvideTextToID(credentials.beachy_Vacayzen["password"], "login_password")
     ClickAtID("button_sign_in")
+
 
 def SubmitOrder():
     startDate = "03/01/2023"
@@ -64,16 +80,28 @@ def SubmitOrder():
     NavigateToDestinationItem("Carillon Beach", "Seasonal Sets")
     ProvideTextToID(startDate, "start_date")
     ProvideTextToID(endDate, "end_date")
+
     time.sleep(0.2)
-    ProvideTextToXPATH(quantity, "/html/body/div[2]/div[2]/div/div[2]/div[1]/form/div[2]/div/div[2]/div[2]/div[2]/input")
-
-
-
-
-    # ClickAtXPATH("/html/body/div[2]/div[2]/div/div[2]/div[1]/form/div[2]/div/div[3]/div[2]/div[1]/a")
-    # time.sleep(0.2)
-    # ClickAtID("add-to-cart")
-    # time.sleep(0.2)
+    
+    ClearAtXPATH("/html/body/div[2]/div[2]/div/div[2]/div[1]/form/div[2]/div/div[2]/div[2]/div[2]/input")
+    
+    time.sleep(0.2)
+    
+    ClickAtXPATH("/html/body/div[2]/div[2]/div/div[2]/div[1]/form/div[2]/div/div[2]/div[2]/div[2]/input")
+    element = driver.find_element(By.XPATH, "/html/body/div[2]/div[2]/div/div[2]/div[1]/form/div[2]/div/div[2]/div[2]/div[2]/input")
+    action.move_to_element(element).click().send_keys(quantity)
+    action.perform()
+    
+    time.sleep(0.2)
+    
+    ClickAtXPATH("/html/body/div[2]/div[2]/div/div[2]/div[1]/form/div[2]/div/div[3]/div[2]/div[1]/a")
+    
+    time.sleep(1)
+    
+    ClickAtID("add-to-cart")
+    
+    time.sleep(1)
+    
     # ClickAtID("cart-checkout-btn")
 
 

@@ -49,11 +49,13 @@ def PullReport(startDate, endDate):
     
     start  = driver.find_element(By.XPATH,"/html/body/div[2]/div/div/div/div/section/looks-subrouter/ui-view/lk-explore-dataflux/div[2]/lk-explore-content/div/div/lk-filter-pane/lk-expandable-pane/div[2]/expandable-pane-content/lk-query-filters/table/tbody/tr[1]/td[3]/lk-filter/table/tbody/tr/td[2]/span[2]/span[1]/lens-explore-filter-date-picker/div/button").click()
     start  = driver.find_element(By.XPATH,"/html/body/div[5]/div/div/div/div/div/div/div/div/input")
+    start.send_keys(Keys.COMMAND,"a",Keys.BACKSPACE)
     start.send_keys(startDate)
     start.send_keys(Keys.ENTER)
     
     end    = driver.find_element(By.XPATH,"/html/body/div[2]/div/div/div/div/section/looks-subrouter/ui-view/lk-explore-dataflux/div[2]/lk-explore-content/div/div/lk-filter-pane/lk-expandable-pane/div[2]/expandable-pane-content/lk-query-filters/table/tbody/tr[1]/td[3]/lk-filter/table/tbody/tr/td[2]/span[3]/span/lens-explore-filter-date-picker/div/button").click()
     end    = driver.find_element(By.XPATH,"/html/body/div[5]/div/div/div/div/div/div/div/div/input")
+    end.send_keys(Keys.COMMAND,"a",Keys.BACKSPACE)
     end.send_keys(endDate)
     end.send_keys(Keys.ENTER)
 
@@ -62,10 +64,12 @@ def PullReport(startDate, endDate):
     options  = driver.find_element(By.XPATH,"/html/body/div[2]/div/div/div/div/section/looks-subrouter/ui-view/lk-explore-dataflux/lk-explore-header/div[2]/lk-explore-header-menu/lens-explore-header-menu/button").click()
     download = driver.find_element(By.XPATH,"/html/body/div[5]/div/div/div/div/div/ul/li[1]/button").click()
 
-    filename = driver.find_element(By.XPATH,"/html/body/div[1]/div/div/div/form/div[1]/div[5]/div/input")
+    time.sleep(5)
+
+    filename = driver.find_element(By.XPATH,"/html/body/div[5]/div/div/div[2]/div/div/div/div[2]/div[1]/div/input")
     filename.clear()
-    filename.send_keys("Export_Walkups.csv")
-    download = driver.find_element(By.XPATH,"/html/body/div[1]/div/div/div/form/div[2]/button[2]").click()
+    filename.send_keys("Export_Walkups")
+    download = driver.find_element(By.XPATH,"/html/body/div[5]/div/div/div[2]/footer/div[1]/button[1]").click()
 
     WaitForDownload('Export_Walkups','csv')
 

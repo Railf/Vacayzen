@@ -32,22 +32,30 @@ def GetCSVFromGoogleSheetTab(sheetID,tabID):
 
 def GetOrderDataFromCSV():
     data = []
+
     with open('/Users/workhorse/Downloads/Export_ExportRentalsByDay.csv') as file:
         reader = csv.reader(file)
 
         for row in reader:
             data.append(row[:-1])
-    
+
+    with open('/Users/workhorse/Downloads/SWBSA Billing Master - ONE-OFF ADDS.csv') as file:
+        reader = csv.reader(file)
+
+        for row in reader:
+            data.append(row)
+
     return data
 
 def GetWalkupDataFromCSV():
     data = []
+
     with open('/Users/workhorse/Downloads/Export_Walkups.csv') as file:
         reader = csv.reader(file)
 
         for row in reader:
             data.append(row[1:])
-    
+
     return data
 
 def GetConfigDataFromCSV():
@@ -563,7 +571,7 @@ GenerateMVPReport(accessUtilization, vendorUtilization, summary, sys.argv[1], sy
 
 # SWBSA Reports
 GenerateBillingSummary(statsByVendor)
-GenerateInvoices(ordersByVendor, statsByVendor, start)
+# GenerateInvoices(ordersByVendor, statsByVendor, start)
 GenerateVendorCSVs(ordersByVendor)
 
 RemoveReportingFiles()

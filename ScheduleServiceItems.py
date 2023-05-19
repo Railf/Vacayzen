@@ -13,6 +13,7 @@ options = webdriver.ChromeOptions()
 driver  = webdriver.Chrome(options=options)
 wait    = WebDriverWait(driver, 30)
 
+
 def NavigateToWebsite():
     print("navigating to login page...")
     driver.get(credentials.integraRental["url"])
@@ -26,14 +27,14 @@ def Login(username, password):
     validate = wait.until(EC.presence_of_element_located((By.XPATH,"/html/body/div/div[2]/div/div[3]/button[2]"))).click()
 
 
-def NavigateToAgreement(agreement):
-    print("navigating to rental agreement: " + str(agreement) + " ...")
-    search = wait.until(EC.presence_of_element_located((By.ID,"txtSearchBox"))).send_keys(agreement)
+def NavigateToOrder(order):
+    print("navigating to rental agreement: " + str(order) + " ...")
+    search = wait.until(EC.presence_of_element_located((By.ID,"txtSearchBox"))).send_keys(order)
     button = driver.find_element(By.ID,"btn_Search_AG_ById").click()
     time.sleep(5)
 
 
-def ScheduleTune(date):
+def ScheduleServiceOnDateWithNote(service, date, note):
     date = pd.to_datetime(date)
     date = date.strftime("%m/%d/%Y")
     date = date + " 9:00 AM"
@@ -50,19 +51,22 @@ def ScheduleTune(date):
         time.sleep(0.5)
         wait.until(EC.presence_of_element_located((By.ID,"MainContent_btnAddServiceItem"))).click()
     
-    service = wait.until(EC.presence_of_element_located((By.ID,"serviceAutocomplete"))).send_keys('EOY Tune')
+    service = wait.until(EC.presence_of_element_located((By.ID,"serviceAutocomplete"))).send_keys(service)
     time.sleep(0.75)
-    service = wait.until(EC.element_to_be_clickable((By.ID,"serviceAutocomplete_listbox"))).click()
+    service = wait.until(EC.element_to_be_clickable((By.XPATH,"//*[@id='serviceAutocomplete_listbox']/li"))).click()
+    time.sleep(0.75)
+    service = driver.find_element(By.ID,"textAreaLineNote").send_keys(note)
+    time.sleep(0.75)
     service = driver.find_element(By.ID,"ServiceReturnDate").send_keys(date)
+    time.sleep(0.75)
 
     button = driver.find_element(By.ID,"btnAddServiceReservation").click()
     time.sleep(3)
 
 
 
-data = pd.read_csv('/Users/workhorse/Downloads/tunes.csv')
-data = data[['Service Date','INT #']]
-data.columns = ['date','agreement']
+data         = pd.read_csv('/Users/workhorse/Downloads/services.csv')
+data.columns = ['service','note','date','order']
 
 try:
     NavigateToWebsite()
@@ -72,8 +76,8 @@ except:
     Login(credentials.integraRental["username"],credentials.integraRental["password"])
 
 for index, row in data.iterrows():
-    NavigateToAgreement(row.agreement)
-    ScheduleTune(row.date)
+    NavigateToOrder(row.order)
+    ScheduleServiceOnDateWithNote(row.service, row.date, row.note)
 
 
 print("done")

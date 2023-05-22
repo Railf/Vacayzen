@@ -7,7 +7,7 @@ pd.options.mode.chained_assignment = None
 
 date = pd.to_datetime(sys.argv[1])
 
-df = pd.read_csv("/Users/workhorse/Downloads/Constant Contact.csv", index_col=False)
+df = pd.read_excel("/Users/workhorse/Downloads/Constant Contact.xlsx", index_col=False)
 
 df.columns = ['contact','email','date']
 

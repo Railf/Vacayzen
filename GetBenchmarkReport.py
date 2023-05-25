@@ -54,7 +54,7 @@ def PullReport():
 
     excel1Line = driver.find_element(By.XPATH, "//*[@id='BookingSummaryReport']/table[1]/tbody/tr/td[3]/button[3]").click()
 
-    WaitForDownload("Output","xlsx")
+    WaitForDownload("output","xls")
 
 
 NavigateToWebsite()

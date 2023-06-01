@@ -479,7 +479,7 @@ def GenerateVendorCSVs(ordersByVendor):
     os.mkdir('/Users/workhorse/Downloads/CSVs')
 
     for vendor in ordersByVendor:
-        with open("/Users/workhorse/Downloads/CSVs/"+vendor+".csv", 'w') as file:
+        with open("/Users/workhorse/Downloads/CSVs/"+vendor.replace('/','')+".csv", 'w') as file:
             write = csv.writer(file)
             write.writerows(ordersByVendor[vendor])
 
@@ -521,6 +521,7 @@ def RemoveReportingFiles():
     os.remove('SWBSA Billing Master - ACCESSES.csv')
     os.remove('SWBSA Billing Master - CONFIG.csv')
     os.remove('SWBSA Billing Master - MEMBERS.csv')
+    os.remove('SWBSA Billing Master - ONE-OFF ADDS.csv')
     return
 
 
@@ -530,6 +531,7 @@ end   = sys.argv[2]
 GetCSVFromGoogleSheetTab(credentials.GoogleSheetIDs["SWBSA Billing Master"],"554242907") # SWBSA Billing Master - CONFIG.csv
 GetCSVFromGoogleSheetTab(credentials.GoogleSheetIDs["SWBSA Billing Master"],"497664029") # SWBSA Billing Master - MEMBERS.csv
 GetCSVFromGoogleSheetTab(credentials.GoogleSheetIDs["SWBSA Billing Master"],"691606791") # SWBSA Billing Master - ACCESSES.csv
+GetCSVFromGoogleSheetTab(credentials.GoogleSheetIDs["SWBSA Billing Master"],"15994011")  # SWBSA Billing Master - ONE-OFF ADDS.csv
 RunScript('GetSubmissionsSWBSA')                                                         # Export_ExportRentalsByDay.csv
 RunScriptWithArguments('GetWalkupsSWBSA', [start, end])                                  # Export_Walkups.csv
 

@@ -105,8 +105,12 @@ except:
 
 for index, row in data.iterrows():
     NavigateToNewReservation()
+
+    print("creating rental agreement for", row.unit, "... ", end="")
+
     agreement = ScheduleAssetsOnDateForCustomer(row.asset, row.quantity, row.date, row.customer)
     AssignShipTo(row.shipto)
+    
     agreements.append([row.customer, row.unit, agreement])
 
 df = pd.DataFrame(agreements, columns=['customer','unit','rental agreement'])

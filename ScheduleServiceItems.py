@@ -24,7 +24,11 @@ def Login(username, password):
     email    = wait.until(EC.presence_of_element_located((By.ID,"txtEmail"))).send_keys(username)
     passcode = driver.find_element(By.ID,"txtpassword").send_keys(password)
     login    = driver.find_element(By.ID,"btnlogin").click()
-    validate = wait.until(EC.presence_of_element_located((By.XPATH,"/html/body/div/div[2]/div/div[3]/button[2]"))).click()
+    try:
+        print("validating...")
+        validate = wait.until(EC.presence_of_element_located((By.XPATH,"/html/body/div/div[2]/div/div[3]/button[2]"))).click()
+    except:
+        print("validation not needed")
 
 
 def NavigateToOrder(order):
@@ -53,10 +57,14 @@ def ScheduleServiceOnDateWithNote(service, date, note):
     
     service = wait.until(EC.presence_of_element_located((By.ID,"serviceAutocomplete"))).send_keys(service)
     time.sleep(0.75)
+
     service = wait.until(EC.element_to_be_clickable((By.XPATH,"//*[@id='serviceAutocomplete_listbox']/li"))).click()
     time.sleep(0.75)
-    service = driver.find_element(By.ID,"textAreaLineNote").send_keys(note)
-    time.sleep(0.75)
+
+    if not pd.isna(note):
+        service = driver.find_element(By.ID,"textAreaLineNote").send_keys(note)
+        time.sleep(0.75)
+    
     service = driver.find_element(By.ID,"ServiceReturnDate").send_keys(date)
     time.sleep(0.75)
 
@@ -78,7 +86,6 @@ except:
 for index, row in data.iterrows():
     NavigateToOrder(row.order)
     ScheduleServiceOnDateWithNote(row.service, row.date, row.note)
-
 
 print("done")
 driver.quit()

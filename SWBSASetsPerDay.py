@@ -1,10 +1,6 @@
 import pandas as pd
 import numpy as np
 
-# import sys
-
-# date = pd.to_datetime(sys.argv[1])
-
 print('reading in availability...')
 df = pd.read_csv('/Users/workhorse/Downloads/Export_ExportRentalsByDay.csv', index_col=False)
 df = df[['Description','Quantity','RentalAgreementStartDate', 'RentalAgreementEndDate']]

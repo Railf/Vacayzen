@@ -34,6 +34,7 @@ def GetFormAccess(access):
         case 'Azalea Access':                       return 'AZALEA'
         case 'Blue Mountain Access':                return 'BLUE MOUNTAIN'
         case 'Dune Allen Access':                   return 'DUNE ALLEN REGIONAL'
+        case 'Ed Walline Access':                   return 'ED WALLINE'
         case 'Fort Panic Access':                   return 'FORT PANIC'
         case 'Gardenia Access':                     return 'GARDENIA'
         case 'Grayton Dunes Access':                return 'GRAYTON BEACH'

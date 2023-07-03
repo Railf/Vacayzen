@@ -37,7 +37,7 @@ def NavigateToAsset(asset):
 
 def SetMinimumNotice(notice):
     print("setting notice of:", notice, "...")
-    time.sleep(1)
+    time.sleep(3)
     field = wait.until(EC.presence_of_element_located((By.ID,"txtAvaialabilityMinResNotice")))
     field.clear()
     field.send_keys(notice)

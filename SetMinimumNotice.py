@@ -42,6 +42,7 @@ def SetMinimumNotice(notice):
     field.clear()
     field.send_keys(notice)
     save  = wait.until(EC.element_to_be_clickable((By.ID,"btnSettingSave"))).click()
+    time.sleep(1)
 
 def SetMinimumNoticeForAsset(asset, notice):
     NavigateToAsset(asset)

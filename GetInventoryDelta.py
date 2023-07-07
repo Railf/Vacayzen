@@ -64,9 +64,9 @@ df          = df[['asset','current']]
 
 print('merging totals and inventory...')
 rental_delta          = pd.merge(rentals, df, how='left', on='asset')
-rental_delta['delta'] = rental_delta.current - rental_delta.final
+rental_delta['delta'] = rental_delta.final - rental_delta.current
 house_delta           = pd.merge(house, df, how='left', on='asset')
-house_delta['delta']  = house_delta.current - house_delta.final
+house_delta['delta']  = house_delta.final - house_delta.current
 
 
 

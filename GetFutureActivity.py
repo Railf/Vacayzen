@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 
 df         = pd.read_csv('/Users/workhorse/Downloads/AgreementLines.csv')
 df.columns = ['stage','type','start','end','category','asset','quantity','frequency','isRAB']
@@ -40,6 +39,47 @@ df.apply(lambda row : GetDeliveryActivity(row), axis = 1)
 print('getting pickups...')
 df.apply(lambda row : GetPickupActivity(row), axis = 1)
 
+
+os           = pd.read_csv('/Users/workhorse/Downloads/Occupancy Staging.csv')
+os.columns   = ['cid','type','unit','arrival','departure']
+os.arrival   = pd.to_datetime(os.arrival).dt.date
+os.departure = pd.to_datetime(os.departure).dt.date
+os           = os[['unit','arrival','departure','type']]
+
+bp = pd.read_csv('/Users/workhorse/Downloads/Partner Program Register (PPR) - BIKE.csv')
+bp = bp[['PROPERTY \nCODE']]
+bp.columns = ['unit']
+bp = bp['unit'].values
+
+gp = pd.read_csv('/Users/workhorse/Downloads/Partner Program Register (PPR) - GART.csv')
+gp = gp[['PROPERTY \nCODE']]
+gp.columns = ['unit']
+gp = gp['unit'].values
+
+
+def GetCheckActivity (row):
+    if (row.type == 'Owner'):
+        for unit in bp:
+            if unit in row.unit:
+                activity.append([row.arrival,  'Bikes','House Bike',0,'BIKE CHECK'])
+                activity.append([row.departure,'Bikes','House Bike',0,'BIKE CHECK'])
+        for unit in gp:
+            if unit in row.unit:
+                activity.append([row.arrival,  'Garts','House Gart',0,'GART CHECK'])
+                activity.append([row.departure,'Garts','House Gart',0,'GART CHECK'])
+    else:
+        for unit in bp:
+            if unit in row.unit:
+                activity.append([row.departure,'Bikes','House Bike',0,'BIKE CHECK'])
+        for unit in gp:
+            if unit in row.unit:
+                activity.append([row.departure,'Garts','House Gart',0,'GART CHECK'])
+
+
+
+print('getting checks...')
+os.apply(lambda row : GetCheckActivity(row), axis=1)
+
 activity = pd.DataFrame(activity)
 activity.columns = ['date','category','asset','quantity','operation']
 
@@ -49,7 +89,9 @@ assets = pd.read_csv('/Users/workhorse/Downloads/assets.csv')
 activity = activity.merge(assets,'left','asset')
 activity = activity.reset_index()
 
-pivot = activity.pivot_table(values=['quantity'],index=['date'],columns=['department'],aggfunc='count')
-pivot = pivot.fillna(0)
+activity.to_csv('/Users/workhorse/Downloads/activity.csv')
 
-pivot.to_csv('/Users/workhorse/Downloads/activity.csv')
+# pivot = activity.pivot_table(values=['quantity'],index=['date'],columns=['department'],aggfunc='count')
+# pivot = pivot.fillna(0)
+
+# pivot.to_csv('/Users/workhorse/Downloads/activity.csv')

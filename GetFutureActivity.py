@@ -10,28 +10,30 @@ df         = df[df.isRAB == True]
 df         = df[['start','end','category','asset','quantity','frequency']]
 df.start   = pd.to_datetime(df.start).dt.date
 df.end     = pd.to_datetime(df.end).dt.date
+df         = df[(df.start > pd.to_datetime('today').date()) | (df.end > pd.to_datetime('today').date())]
 
 # frequency(2) => delivery first day, pickup last day
 # frequency(3) => delivery and pickup each day (beach service)
 
-activity = []
+activity_one = []
+activity_two = []
 
 def GetDeliveryActivity (row):
     if (row.frequency == 2):
-        activity.append([row.start,row.category,row.asset,row.quantity,'DELIVERY'])
+        activity_one.append([row.start,row.category,row.asset,row.quantity,'DELIVERY'])
     else:
         period = pd.date_range(row.start,row.end,inclusive='both').date
         for day in period:
-            activity.append([day,row.category,row.asset,row.quantity,'DELIVERY'])
+            activity_one.append([day,row.category,row.asset,row.quantity,'DELIVERY'])
 
 
 def GetPickupActivity (row):
     if (row.frequency == 2):
-        activity.append([row.end,row.category,row.asset,row.quantity,'PICKUP'])
+        activity_one.append([row.end,row.category,row.asset,row.quantity,'PICKUP'])
     else:
         period = pd.date_range(row.start,row.end,inclusive='both').date
         for day in period:
-            activity.append([day,row.category,row.asset,row.quantity,'PICKUP'])
+            activity_one.append([day,row.category,row.asset,row.quantity,'PICKUP'])
 
 print('getting deliveries...')
 df.apply(lambda row : GetDeliveryActivity(row), axis = 1)
@@ -45,6 +47,7 @@ os.columns   = ['cid','type','unit','arrival','departure']
 os.arrival   = pd.to_datetime(os.arrival).dt.date
 os.departure = pd.to_datetime(os.departure).dt.date
 os           = os[['unit','arrival','departure','type']]
+os           = os[(os.arrival > pd.to_datetime('today').date()) | (os.departure > pd.to_datetime('today').date())]
 
 bp = pd.read_csv('/Users/workhorse/Downloads/Partner Program Register (PPR) - BIKE.csv')
 bp = bp[['PROPERTY \nCODE']]
@@ -61,24 +64,29 @@ def GetCheckActivity (row):
     if (row.type == 'Owner'):
         for unit in bp:
             if unit in row.unit:
-                activity.append([row.arrival,  'Bikes','House Bike',0,'BIKE CHECK'])
-                activity.append([row.departure,'Bikes','House Bike',0,'BIKE CHECK'])
+                activity_two.append([row.arrival,  unit + ' - Owner','House Bike',0,'BIKE CHECK'])
+                activity_two.append([row.departure,unit + ' - Departure','House Bike',0,'BIKE CHECK'])
+                break
         for unit in gp:
             if unit in row.unit:
-                activity.append([row.arrival,  'Garts','House Gart',0,'GART CHECK'])
-                activity.append([row.departure,'Garts','House Gart',0,'GART CHECK'])
+                activity_two.append([row.arrival,  unit + ' - Owner','House Gart',0,'GART CHECK'])
+                activity_two.append([row.departure,unit + ' - Departure','House Gart',0,'GART CHECK'])
+                break
     else:
         for unit in bp:
             if unit in row.unit:
-                activity.append([row.departure,'Bikes','House Bike',0,'BIKE CHECK'])
+                activity_two.append([row.departure,unit + ' - Departure','House Bike',0,'BIKE CHECK'])
+                break
         for unit in gp:
             if unit in row.unit:
-                activity.append([row.departure,'Garts','House Gart',0,'GART CHECK'])
-
+                activity_two.append([row.departure,unit + ' - Departure','House Gart',0,'GART CHECK'])
+                break
 
 
 print('getting checks...')
 os.apply(lambda row : GetCheckActivity(row), axis=1)
+
+# TODO - remove dups from 
 
 activity = pd.DataFrame(activity)
 activity.columns = ['date','category','asset','quantity','operation']
@@ -86,12 +94,14 @@ activity.columns = ['date','category','asset','quantity','operation']
 print('reading in asset mapping...')
 assets = pd.read_csv('/Users/workhorse/Downloads/assets.csv')
 
-activity = activity.merge(assets,'left','asset')
-activity = activity.reset_index()
+activity      = activity.merge(assets,'left','asset')
+activity      = activity.reset_index()
+activity.date = pd.to_datetime(activity.date).dt.date
+activity      = activity[(activity.date > pd.to_datetime('today').date()) & (activity.date < pd.to_datetime('today').date()+pd.Timedelta(days=10))]
+activity = activity[['date', 'category', 'asset', 'quantity', 'operation','department']]
+activity = activity.drop_duplicates(ignore_index=True)
 
-activity.to_csv('/Users/workhorse/Downloads/activity.csv')
+pivot = activity.pivot_table(values=['operation'],index=['date'],columns=['department'],aggfunc='count')
+pivot = pivot.fillna(0)
 
-# pivot = activity.pivot_table(values=['quantity'],index=['date'],columns=['department'],aggfunc='count')
-# pivot = pivot.fillna(0)
-
-# pivot.to_csv('/Users/workhorse/Downloads/activity.csv')
+pivot.to_csv('/Users/workhorse/Downloads/activity.csv')

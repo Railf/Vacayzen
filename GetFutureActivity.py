@@ -86,22 +86,26 @@ def GetCheckActivity (row):
 print('getting checks...')
 os.apply(lambda row : GetCheckActivity(row), axis=1)
 
-# TODO - remove dups from 
 
-activity = pd.DataFrame(activity)
-activity.columns = ['date','category','asset','quantity','operation']
+#TODO - remove duplicates from check array
 
-print('reading in asset mapping...')
-assets = pd.read_csv('/Users/workhorse/Downloads/assets.csv')
+#TODO - combine activity arrays
 
-activity      = activity.merge(assets,'left','asset')
-activity      = activity.reset_index()
-activity.date = pd.to_datetime(activity.date).dt.date
-activity      = activity[(activity.date > pd.to_datetime('today').date()) & (activity.date < pd.to_datetime('today').date()+pd.Timedelta(days=10))]
-activity = activity[['date', 'category', 'asset', 'quantity', 'operation','department']]
-activity = activity.drop_duplicates(ignore_index=True)
 
-pivot = activity.pivot_table(values=['operation'],index=['date'],columns=['department'],aggfunc='count')
-pivot = pivot.fillna(0)
+# activity = pd.DataFrame(activity)
+# activity.columns = ['date','category','asset','quantity','operation']
 
-pivot.to_csv('/Users/workhorse/Downloads/activity.csv')
+# print('reading in asset mapping...')
+# assets = pd.read_csv('/Users/workhorse/Downloads/assets.csv')
+
+# activity      = activity.merge(assets,'left','asset')
+# activity      = activity.reset_index()
+# activity.date = pd.to_datetime(activity.date).dt.date
+# activity      = activity[(activity.date > pd.to_datetime('today').date()) & (activity.date < pd.to_datetime('today').date()+pd.Timedelta(days=10))]
+# activity = activity[['date', 'category', 'asset', 'quantity', 'operation','department']]
+# activity = activity.drop_duplicates(ignore_index=True)
+
+# pivot = activity.pivot_table(values=['operation'],index=['date'],columns=['department'],aggfunc='count')
+# pivot = pivot.fillna(0)
+
+# pivot.to_csv('/Users/workhorse/Downloads/activity.csv')

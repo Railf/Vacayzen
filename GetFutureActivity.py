@@ -88,6 +88,11 @@ os.apply(lambda row : GetCheckActivity(row), axis=1)
 
 
 #TODO - remove duplicates from check array
+activity_two = pd.DataFrame(activity_two)
+activity_two = activity_two.drop_duplicates(ignore_index=True)
+activity_two.columns = ['date','category','asset','quantity','operation']
+print(activity_two)
+
 
 #TODO - combine activity arrays
 

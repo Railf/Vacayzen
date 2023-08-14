@@ -90,9 +90,9 @@ def GetAccessDataFromCSV():
 
 def ConvertOrderDates(order):
     order[4]  = int(float(order[4]))
-    order[10] = datetime.strptime(order[10],"%m/%d/%Y %I:%M:%S %p")
+    order[10] = datetime.strptime(order[10],"%m/%d/%Y")
     order[10] = datetime(order[10].year, order[10].month, order[10].day)
-    order[11] = datetime.strptime(order[11],"%m/%d/%Y %I:%M:%S %p")
+    order[11] = datetime.strptime(order[11],"%m/%d/%Y")
     order[11] = datetime(order[11].year, order[11].month, order[11].day)
 
     return order

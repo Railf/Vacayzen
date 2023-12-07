@@ -21,6 +21,7 @@ def NavigateToWebsite():
 
 def Login(username, password):
     print("logging in...")
+    time.sleep(1)
     email    = wait.until(EC.presence_of_element_located((By.ID,"txtEmail"))).send_keys(username)
     passcode = driver.find_element(By.ID,"txtpassword").send_keys(password)
     login    = driver.find_element(By.ID,"btnlogin").click()

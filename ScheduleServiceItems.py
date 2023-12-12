@@ -47,7 +47,7 @@ def ScheduleServiceOnDateWithNote(service, date, note):
     driver.execute_script("window.scrollTo(0,document.body.scrollHeight)")
 
     try:
-        if EC.presence_of_element_located((By.XPATH,"/html/body/div[109]/div[2]/div/div/button")): driver.find_element(By.XPATH,"/html/body/div[109]/div[2]/div/div/button").click()
+        if EC.presence_of_element_located((By.XPATH,"/html/body/div[111]/div[2]/div/div/button")): driver.find_element(By.XPATH,"/html/body/div[111]/div[2]/div/div/button").click()
         driver.execute_script("window.scrollTo(0,document.body.scrollHeight)")
         time.sleep(0.5)
         wait.until(EC.presence_of_element_located((By.ID,"MainContent_btnAddServiceItem"))).click()

@@ -2,13 +2,13 @@ import pandas as pd
 
 # Homework
 
-partners               = pd.read_csv('/Users/workhorse/Downloads/partners.csv')
-sites                  = pd.read_csv('/Users/workhorse/Downloads/site_to_partner.csv')
-houseAgreements        = pd.read_csv('/Users/workhorse/Downloads/house_agreements.csv')
-partnerSiteAgreements  = pd.read_excel('/Users/workhorse/Downloads/CTLL_PartnerSiteRentalAgreements.xlsx')
-ral                    = pd.read_excel('/Users/workhorse/Downloads/CTLL_RentalAgreementLines.xlsx')
-ra                     = pd.read_excel('/Users/workhorse/Downloads/CTLL_RentalAgreement.xlsx')
-pp                     = pd.read_excel('/Users/workhorse/Downloads/Prepayment Export.xlsx')
+partners               = pd.read_csv('/Users/workhorse/Downloads/Partners.csv')
+sites                  = pd.read_csv('/Users/workhorse/Downloads/Site_To_Partner.csv')
+houseAgreements        = pd.read_csv('/Users/workhorse/Downloads/House_Agreements.csv')
+partnerSiteAgreements  = pd.read_csv('/Users/workhorse/Downloads/CTLL_PartnerSiteRentalAgreements.csv')
+ral                    = pd.read_csv('/Users/workhorse/Downloads/CTLL_RentalAgreementLines.csv')
+ra                     = pd.read_csv('/Users/workhorse/Downloads/CTLL_RentalAgreement.csv')
+pp                     = pd.read_csv('/Users/workhorse/Downloads/Prepayment Export.csv')
 
 
 #################################################

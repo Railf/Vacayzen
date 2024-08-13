@@ -163,8 +163,9 @@ def SubmitOrder(order):
     ProvideTextToID(order[4], "startDateInput")
     ProvideTextToID(order[5], "endDateInput")
     ProvideTextToID(order[6], "numberOfSets")
-    ProvideTextToID(order[7], "empName")
-    ProvideTextToID(order[8], "empEmail")
+    ProvideTextToID(order[8], "empName")
+    ProvideTextToID(order[9], "empEmail")
+    ProvideTextToID(order[7], "comments")
     ClickSubmit()
     status = GetSubmissionStatus()
 

@@ -35,7 +35,7 @@ ra2c         = pd.merge(df, ra, left_on=['Latitude','Longitude'], right_on=['Agr
 ra2c         = ra2c.drop_duplicates(keep="last")
 ra2c         = ra2c[ra2c != 0]
 ra2c         = ra2c.dropna(subset=['AgrmtJobAddrLat','AgrmtJobAddrLong'])
-ra2c         = ra2c[['ID','CustomerNumber']]
+ra2c         = ra2c[['ID','CustomerNumber_x']]
 ra2c.columns = ['RentalAgreementNo','Partner']
 
 
@@ -73,7 +73,7 @@ result['PaymentDate']                         = pd.to_datetime(result['PaymentDa
 
 result = result.drop(columns=['Partner','CID'])
 
-result.to_csv('/Users/workhorse/Downloads/prepayments.csv', index=False)
+result.to_csv('/Users/ralphmccracken/Downloads/prepayments.csv', index=False)
 
 
 #################################################
